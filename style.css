@@ -33,4 +33,17 @@ body {
     align-items: center;
     justify-content: center;
     border: none;
+    padding: 2px 5px;
+    border-radius: 9px;
+    background-color: white;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7,1fr)
+}
+
+.day {
+    text-align: center;
+    
 }
