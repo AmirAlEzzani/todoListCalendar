@@ -15,4 +15,10 @@ const updateCalendar = () => {
     const lastDayIndex = lastDay.getDay();
     const monthYearString = currentDate.toLocaleString('default', {month: 'long', year: 'numeric'});
     monthYear.textContent = monthYearString;
+    let dateHTML = '';
+    
+    for (let i = firstDayIndex; i > 0; i--) {
+        const prev = new Date(currentYear, currentMonth, 0 - 1 + 1);
+        dateHTML += `<div class="date inactive">${prev.getDate()}</div>`;
+    }
 }
