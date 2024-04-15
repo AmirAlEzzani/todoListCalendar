@@ -16,9 +16,17 @@ const updateCalendar = () => {
     const monthYearString = currentDate.toLocaleString('default', {month: 'long', year: 'numeric'});
     monthYear.textContent = monthYearString;
     let dateHTML = '';
+    let dateInnerHTM
     
     for (let i = firstDayIndex; i > 0; i--) {
         const prev = new Date(currentYear, currentMonth, 0 - 1 + 1);
         dateHTML += `<div class="date inactive">${prev.getDate()}</div>`;
+    }
+
+    for (let i = 1; i <= totalDays; i++) {
+        const date = new Date(currentYear, currentMonth, i);
+        const activeClass = date.toDateString() === new Date().toDateString() ? 'active' : '';
+        dateHTML += `<div class=date ${activeClass}">${i}</div>`;
+ 
     }
 }
