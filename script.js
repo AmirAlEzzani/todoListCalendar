@@ -72,6 +72,7 @@ function addTaskFunc() {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     todo.append(checkbox);
+    checkbox.classList.add('checkbox');
     checkbox.classList.add('task-'+taskNum);
 
     const remove = document.createElement('button');
@@ -89,7 +90,23 @@ function addTaskFunc() {
                 todo.removeChild(element);
             })
         });
-    })
+    });
+
+    document.querySelectorAll('.checkbox').forEach(item => {
+        item.addEventListener('change', function() {
+            let checkMe = item.classList[1];
+            document.querySelectorAll("." +checkMe).forEach(element => {
+                if (item.checked) {
+                    if (element.tagName !== 'BUTTON') {
+                        element.classList.add('completed');
+                    }
+                } 
+                else {
+                    element.classList.remove('completed');
+                }
+            })
+        });
+    });
 }
 addTask.addEventListener('click', addTaskFunc);
 

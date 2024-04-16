@@ -79,3 +79,9 @@ body {
 .day:hover {
     background-color: green;
 }
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+    text-decoration-color: black;
+}
