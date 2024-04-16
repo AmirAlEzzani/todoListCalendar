@@ -27,7 +27,7 @@ function myFunction() {
     var today = new Date();
     var numOfDays = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getDate();
     var month = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).toLocaleString('default', { month: 'long' });
-    console.log(month + " has " + numOfDays + " days.");
+    //console.log(month + " has " + numOfDays + " days.");
     var year = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getFullYear();
     var firstDay = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 1-numOfDays).getDay();
 
@@ -53,3 +53,46 @@ function myFunction() {
 myFunction();
 prev.addEventListener('click', prevBtn);
 next.addEventListener('click', nextBtn);
+
+const addTask = document.getElementById('addTask');
+const createTask = document.getElementById('createTask');
+const taskName = document.getElementById('taskName');
+const todo = document.getElementById('todo');
+let taskNum = 0;
+function addTaskFunc() {
+    
+    const taskChild = document.createElement('input');
+    taskChild.type = 'text';
+    todo.appendChild(taskChild);
+    taskChild.value = createTask.value;
+    taskChild.setAttribute('readonly', true);
+    createTask.value = '';
+    taskChild.classList.add('task-'+taskNum);
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    todo.append(checkbox);
+    checkbox.classList.add('task-'+taskNum);
+
+    const remove = document.createElement('button');
+    remove.innerText = 'Remove';
+    todo.append(remove);
+    remove.classList.add('removeBtn');
+    remove.classList.add('task-'+taskNum);
+    taskNum++;
+    
+    document.querySelectorAll('.removeBtn').forEach(item => {
+        item.addEventListener('click', function() {
+            let removeMe = item.classList[1];
+            console.log(removeMe);
+            document.querySelectorAll("."+removeMe).forEach(element => {
+                todo.removeChild(element);
+            })
+        });
+    })
+}
+addTask.addEventListener('click', addTaskFunc);
+
+
+
+
