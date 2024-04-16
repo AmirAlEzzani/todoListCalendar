@@ -3,7 +3,7 @@ const next = document.getElementById('next');
 const monthName = document.getElementById('monthName');
 const yearName = document.getElementById('yearName');
 const dates = document.getElementById('dates');
-const addDay = document.createElement('button');
+
 
 var selectedMonth = 1;
 
@@ -29,14 +29,22 @@ function myFunction() {
     var month = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).toLocaleString('default', { month: 'long' });
     console.log(month + " has " + numOfDays + " days.");
     var year = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getFullYear();
+    var firstDay = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 1-numOfDays).getDay();
 
 
+    for (let j = 0 ; j < firstDay; j++) {
+        const firstDayOffset = document.createElement('div');
+        dates.appendChild(firstDayOffset);
+        firstDayOffset.classList.add('firstDayOffset');
+    } 
 
-    for (let i = 1  ; i <= numOfDays; i++) {
+    for (let i = 1 ; i <= numOfDays; i++) {
         const addDay = document.createElement('button');
         dates.appendChild(addDay);
+        addDay.classList.add('day');
         addDay.innerText = i;
     } 
+
 
     monthName.innerText = month;
     yearName.innerText = year;

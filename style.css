@@ -48,7 +48,25 @@ body {
     grid-template-columns: repeat(7,1fr)
 }
 
+.dayHeader {
+    text-align: center;
+}
+
 .day {
     text-align: center;
-       
+    height: 50px;
+    width: 70px;
+    margin: auto;
+}
+
+.firstDayOffset {
+    text-align: center;
+    height: 50px;
+    width: 70px;
+    margin: auto;
+}
+
+
+.day:hover {
+    background-color: green;
 }
