@@ -25,6 +25,7 @@ function nextBtn() {
 
 function myFunction() {
     var today = new Date();
+    console.log(today);
     var numOfDays = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getDate();
     var month = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).toLocaleString('default', { month: 'long' });
     //console.log(month + " has " + numOfDays + " days.");
@@ -48,6 +49,34 @@ function myFunction() {
 
     monthName.innerText = month;
     yearName.innerText = year;
+
+
+    document.querySelectorAll('.day').forEach(item => {
+        idYear = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getFullYear();
+        idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getMonth();
+        idDate = item.innerText;
+        fullId = idYear + "-" + idMonth + "-" + idDate
+        item.id = fullId;
+        item.style.backgroundColor = 'white';
+        let itemDiv = document.createElement('div');
+        if (item.innerText == new Date().getDate()) {
+            item.style.backgroundColor = 'wheat';
+        }
+
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.day').forEach(item => {
+                item.style.backgroundColor = 'white';
+                if (item.innerText == new Date().getDate()) {
+                    item.style.backgroundColor = 'wheat';
+                }
+            });
+            itemDiv.id = item.id;
+            item.style.backgroundColor = 'burlywood';
+            itemDiv.innerText = taskList + " " + checkList;
+            console.log(itemDiv.id + " " + itemDiv.innerText);
+
+        })
+    })
 }
 
 myFunction();
@@ -59,8 +88,11 @@ const createTask = document.getElementById('createTask');
 const taskName = document.getElementById('taskName');
 const todo = document.getElementById('todo');
 let taskNum = 0;
+let taskList = [];
+let checkList = [];
 function addTaskFunc() {
     
+
     const taskChild = document.createElement('input');
     taskChild.type = 'text';
     todo.appendChild(taskChild);
@@ -68,12 +100,15 @@ function addTaskFunc() {
     taskChild.setAttribute('readonly', true);
     createTask.value = '';
     taskChild.classList.add('task-'+taskNum);
+    taskList.push(taskChild.value);
+    console.log(taskList);
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     todo.append(checkbox);
     checkbox.classList.add('checkbox');
     checkbox.classList.add('task-'+taskNum);
+    checkList.push(false);
 
     const remove = document.createElement('button');
     remove.innerText = 'Remove';
@@ -88,6 +123,10 @@ function addTaskFunc() {
             console.log(removeMe);
             document.querySelectorAll("."+removeMe).forEach(element => {
                 todo.removeChild(element);
+                let removeMeSplit = removeMe.split("-");
+                let removeMeNum = removeMeSplit[1];
+                console.log(removeMeNum);
+                checkList.splice(removeMeNum);
             })
         });
     });
@@ -97,17 +136,32 @@ function addTaskFunc() {
             let checkMe = item.classList[1];
             document.querySelectorAll("." +checkMe).forEach(element => {
                 if (item.checked) {
+                    console.log(checkMe);
+                    let checkMeSplit = checkMe.split("-");
+                    let checkMeNum = checkMeSplit[1];
+                    console.log(checkMeNum);
+                    checkList[checkMeNum] = true;
+                    console.log(checkList);
+
                     if (element.tagName !== 'BUTTON') {
                         element.classList.add('completed');
                     }
                 } 
                 else {
                     element.classList.remove('completed');
+                    let checkMeSplit = checkMe.split("-");
+                    let checkMeNum = checkMeSplit[1];
+                    console.log(checkMeNum);
+                    checkList[checkMeNum] = false;
+                    console.log(checkList);
                 }
             })
         });
     });
 }
+
+
+
 addTask.addEventListener('click', addTaskFunc);
 
 
