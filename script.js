@@ -126,7 +126,9 @@ function addTaskFunc() {
                 let removeMeSplit = removeMe.split("-");
                 let removeMeNum = removeMeSplit[1];
                 console.log(removeMeNum);
+                taskList.splice(removeMeNum);
                 checkList.splice(removeMeNum);
+                console.log(taskList);
             })
         });
     });
@@ -163,7 +165,6 @@ function addTaskFunc() {
 
 
 addTask.addEventListener('click', addTaskFunc);
-
 
 
 
