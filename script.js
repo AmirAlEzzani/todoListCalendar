@@ -55,7 +55,7 @@ function myFunction() {
         idYear = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getFullYear();
         idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getMonth();
         idDate = item.innerText;
-        fullId = idYear + "-" + idMonth + "-" + idDate
+        fullId = "date-" + idYear + "-" + idMonth + "-" + idDate
         item.id = fullId;
         item.style.backgroundColor = 'white';
         let itemDiv = document.createElement('div');
