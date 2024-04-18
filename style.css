@@ -85,3 +85,7 @@ body {
     color: gray;
     text-decoration-color: black;
 }
+
+.hidden {
+    display: none;
+}
