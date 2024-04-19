@@ -12,7 +12,17 @@ function prevBtn() {
         dates.removeChild(dates.firstChild);
     }
     selectedMonth--;
+
     myFunction();
+    document.querySelectorAll('.day').forEach(item => {
+        if (item.id != todayId) {
+            item.classList.remove('today');
+        }
+        item.style.backgroundColor = 'white';
+        if (item.classList.contains('today')) {
+            item.style.backgroundColor = 'wheat';
+        }
+    })
 }
 
 function nextBtn() {
@@ -21,6 +31,17 @@ function nextBtn() {
     }
     selectedMonth++;
     myFunction();
+    document.querySelectorAll('.day').forEach(item => {
+        if (item.id != todayId) {
+            item.classList.remove('today');
+        }
+        item.style.backgroundColor = 'white';
+        if (item.classList.contains('today')) {
+            item.style.backgroundColor = 'wheat';
+        }
+    })
+    
+    
 }
 
 function myFunction() {
@@ -54,39 +75,77 @@ function myFunction() {
     const createTask = document.getElementById('createTask');
     const taskName = document.getElementById('taskName');
     const todo = document.getElementById('tasks');
+    let selectedDate = document.querySelector('.selected');
 
     // when page is initially loaded
     document.querySelectorAll('.day').forEach(item => {
         idYear = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getFullYear();
-        idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getMonth();
+        idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth+1, 0).getMonth();
         idDate = item.innerText;
         fullId = "date-" + idYear + "-" + idMonth + "-" + idDate;
+        idYearToday = new Date(today.getFullYear(), today.getMonth(), 0).getFullYear();
+        idMonthToday = new Date(today.getFullYear(), today.getMonth()).getMonth()+1;
+        todayId = "date-" + idYearToday + "-" + idMonthToday + "-" + todaysDate;
+        console.log(todayId);
         item.id = fullId;
-        if (item.innerText == new Date().getDate()) {
+        if (item.id == todayId) {
+            item.classList.add('today');
+        }
+        if (item.classList.contains('selected')) {
+            item.style.backgroundColor = 'burlywood';
+        }
+        if (item.id != todayId) {
+            item.classList.remove('today');
+        }
+        if (item.classList.contains('today')) {
             item.style.backgroundColor = 'wheat';
             item.classList.add('selected');
+            
+        }
+        if (item.classList.contains('selected')) {
+            item.style.backgroundColor = 'burlywood';
         }
         else {
             item.classList.remove('selected');
             item.style.backgroundColor = 'white';
         }
-        let selectedDate = document.querySelector('.selected');
+
         
         // when a date is clicked
         item.addEventListener('click', function() {
+            taskNum = 0;
+            while (taskList.length > 0) {
+                taskList.splice(0);
+                console.log(taskList);
+                console.log('removed');
+
+            }
+
+            while (checkList.length > 0) {
+                checkList.splice(0);
+                console.log(checkList);
+                console.log('removed');
+
+            }
             document.querySelectorAll('.day').forEach(item => {
+
                 item.classList.remove('selected');
+
                 item.style.backgroundColor = 'white';
+                if (item.classList.contains('today')) {
+                    item.style.backgroundColor = 'wheat';
+                }
             });
-            console.log(data);
-            item.style.backgroundColor = 'wheat';
+
             item.classList.add('selected');
             removeTaskFunc();
-            selectedDate.appendChild(data);
-            console.log(taskList);
-            data.classList.add(item.id);
             item.style.backgroundColor = 'burlywood';
-
+            if (item.hasAttribute('tasklist')) {
+                console.log(item.innerText + " "+ item.getAttribute('tasklist'));
+            }
+            if (item.hasAttribute('checklist')) {
+                console.log(item.innerText + " "+ item.getAttribute('checklist'));
+            }
         });
     });
 }
@@ -95,13 +154,11 @@ myFunction();
 prev.addEventListener('click', prevBtn);
 next.addEventListener('click', nextBtn);
 
-let data = document.createElement('div');
-data.classList.add('hidden');
-data.classList.add(fullId);
-
 let taskNum = 0;
 let taskList = [];
 let checkList = [];
+
+
 function removeTaskFunc() {
     document.querySelectorAll('.task').forEach(item => {
         item.remove();
@@ -109,7 +166,6 @@ function removeTaskFunc() {
 }
 function addTaskFunc() {
     
-
     const taskChild = document.createElement('input');
     taskChild.type = 'text';
     todo.appendChild(taskChild);
@@ -119,7 +175,8 @@ function addTaskFunc() {
     taskChild.classList.add('task');
     taskChild.classList.add('task-'+taskNum);
     taskList.push(taskChild.value);
-    console.log(taskList);
+    let selectedDate = document.querySelector('.selected');
+    selectedDate.setAttribute('tasklist', taskList);
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -128,10 +185,9 @@ function addTaskFunc() {
     checkbox.classList.add('task');
     checkbox.classList.add('task-'+taskNum);
     checkList.push(false);
-    selectedDate.removeChild(data);
-    data.innerText = taskList + " &+& " + checkList;
-    selectedDate.appendChild(data);
-    console.log(data);
+    selectedDate.setAttribute('checklist', checkList);
+    console.log(taskList);
+    console.log(checkList);
 
     const remove = document.createElement('button');
     remove.innerText = 'Remove';
@@ -144,36 +200,36 @@ function addTaskFunc() {
     document.querySelectorAll('.removeBtn').forEach(item => {
         item.addEventListener('click', function() {
             let removeMe = item.classList[2];
-            console.log(removeMe);
+
             document.querySelectorAll("."+removeMe).forEach(element => {
                 todo.removeChild(element);
                 let removeMeSplit = removeMe.split("-");
                 let removeMeNum = removeMeSplit[1];
-                let moveDownOne = removeMeNum;
-                console.log(removeMeNum);
+                
                 taskList.splice(removeMeNum);
                 checkList.splice(removeMeNum);
+                let selectedDate = document.querySelector('.selected');
+                selectedDate.setAttribute('tasklist', taskList);
+                selectedDate.setAttribute('checklist', checkList);
+                console.log(checkList);
             });
-            selectedDate.removeChild(data);
-            data.innerText = taskList + " &+& " + checkList;
-            selectedDate.appendChild(data);
-            console.log(data);
-            
         });
     });
 
     document.querySelectorAll('.checkbox').forEach(item => {
         item.addEventListener('change', function() {
             let checkMe = item.classList[2];
+            
             document.querySelectorAll("." +checkMe).forEach(element => {
                 if (item.checked) {
-                    console.log(checkMe);
+                    
                     let checkMeSplit = checkMe.split("-");
                     let checkMeNum = checkMeSplit[1];
                     console.log(checkMeNum);
-                    checkList[checkMeNum] = true;
-                    console.log(checkList);
 
+                    checkList[checkMeNum] = true;
+                    console.log(taskList);
+                    console.log(checkList);
                     if (element.tagName !== 'BUTTON') {
                         element.classList.add('completed');
                     }
@@ -182,15 +238,14 @@ function addTaskFunc() {
                     element.classList.remove('completed');
                     let checkMeSplit = checkMe.split("-");
                     let checkMeNum = checkMeSplit[1];
-                    console.log(checkMeNum);
+   
                     checkList[checkMeNum] = false;
+                    console.log(taskList);
                     console.log(checkList);
                 }
+                
             });
-            selectedDate.removeChild(data);
-            data.innerText = taskList + " &+& " + checkList;
-            selectedDate.appendChild(data);
-            console.log(data);
+            selectedDate.setAttribute('checklist', checkList);
         });
     });
 }

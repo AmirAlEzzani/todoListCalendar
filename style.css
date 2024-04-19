@@ -75,6 +75,10 @@ body {
     margin: auto;
 }
 
+.today {
+    background-color: wheat;
+}
+
 
 .day:hover {
     background-color: green;
