@@ -199,22 +199,32 @@ function addTaskFunc() {
     
     document.querySelectorAll('.removeBtn').forEach(item => {
         item.addEventListener('click', function() {
-            let removeMe = item.classList[2];
-
-            document.querySelectorAll("."+removeMe).forEach(element => {
-                todo.removeChild(element);
-                let removeMeSplit = removeMe.split("-");
-                let removeMeNum = removeMeSplit[1];
-                
-                taskList.splice(removeMeNum);
-                checkList.splice(removeMeNum);
-                let selectedDate = document.querySelector('.selected');
-                selectedDate.setAttribute('tasklist', taskList);
-                selectedDate.setAttribute('checklist', checkList);
-                console.log(checkList);
-            });
+            
+            item.classList.add('yo');
+            wakeUp();
+            console.log(item);
         });
     });
+    function wakeUp() {
+    document.querySelectorAll('.yo').forEach(element => {
+
+            let removeMe = element.classList[2];
+            let removeMeSplit = removeMe.split("-");
+            let removeMeNum = removeMeSplit[1];
+            console.log(removeMeNum);
+            console.log(removeMe);
+            document.querySelectorAll("."+removeMe).forEach(item => {
+                item.classList.add('yo');
+            });
+            todo.removeChild(element);
+            taskList.splice(removeMeNum);
+            checkList.splice(removeMeNum);
+            let selectedDate = document.querySelector('.selected');
+            selectedDate.setAttribute('tasklist', taskList);
+            selectedDate.setAttribute('checklist', checkList);
+            console.log(checkList);
+        })
+    }
 
     document.querySelectorAll('.checkbox').forEach(item => {
         item.addEventListener('change', function() {
@@ -253,5 +263,4 @@ function addTaskFunc() {
 
 
 addTask.addEventListener('click', addTaskFunc);
-
 
