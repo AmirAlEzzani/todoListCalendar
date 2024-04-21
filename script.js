@@ -242,6 +242,18 @@ function addTaskFunc() {
                 console.log(i.classList);
                 i.classList.add('larger');
             }
+            document.querySelectorAll('.yo').forEach(iShouldBeRemoved => {
+                todo.removeChild(iShouldBeRemoved);
+            })
+            document.querySelectorAll('.larger').forEach(iShouldBeDecreased =>{
+                iShouldBeDecreased.classList.remove('larger');
+                let decreaseMe = iShouldBeDecreased.classList[iShouldBeDecreased.classList.length-1];
+                let decreaseMeSplit = decreaseMe.split('-');
+                let decreaseMeNum = decreaseMeSplit[1];
+                iShouldBeDecreased.classList.remove(decreaseMe);
+                decreaseMeNum--;
+                iShouldBeDecreased.classList.add('task-'+decreaseMeNum);
+            })
         })
 
 
