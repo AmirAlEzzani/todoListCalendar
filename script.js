@@ -146,6 +146,28 @@ function myFunction() {
             if (item.hasAttribute('checklist')) {
                 console.log(item.innerText + " "+ item.getAttribute('checklist'));
             }
+
+function displayTasks() {
+
+    let separateTasks = item.getAttribute('tasklist').split(',');
+    let separateChecks = item.getAttribute('checklist').split(',');
+    for (joe = 0; joe<separateTasks.length;joe++) {
+        const displayTask = document.createElement('input');
+        const displayCheck = document.createElement('input');
+        displayTask.type = 'text';
+        displayCheck.type = 'checkbox';
+        displayTask.value = separateTasks[joe];
+        if (separateChecks[joe] == 'true') {
+            displayCheck.checked = true;
+        }
+        displayTask.classList.add('task');
+        displayCheck.classList.add('task');
+        todo.appendChild(displayTask);
+        todo.appendChild(displayCheck);
+    }
+}
+        displayTasks();
+
         });
     });
 }
