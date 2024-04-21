@@ -43,7 +43,7 @@ function nextBtn() {
     
     
 }
-
+let taskNum = 0;
 function myFunction() {
     var today = new Date();
     var numOfDays = new Date(today.getFullYear(), today.getMonth()+selectedMonth, 0).getDate();
@@ -156,14 +156,45 @@ function displayTasks() {
         const displayCheck = document.createElement('input');
         displayTask.type = 'text';
         displayCheck.type = 'checkbox';
+        displayTask.setAttribute('readonly', true);
         displayTask.value = separateTasks[joe];
         if (separateChecks[joe] == 'true') {
             displayCheck.checked = true;
         }
         displayTask.classList.add('task');
+        displayTask.classList.add('task-'+taskNum);
+
         displayCheck.classList.add('task');
+
+        displayCheck.classList.add('checkbox');
+        displayCheck.classList.add('task-'+taskNum);
+
+        const remove = document.createElement('button');
+        remove.innerText = 'Remove';
+        
+        remove.classList.add('removeBtn');
+        remove.classList.add('task');
+        remove.classList.add('task-'+taskNum);
+
         todo.appendChild(displayTask);
         todo.appendChild(displayCheck);
+        todo.appendChild(remove);
+        taskNum++;
+        document.querySelectorAll('.task').forEach(i => {
+        document.querySelectorAll('.removeBtn').forEach(item => {
+            item.addEventListener('click', function() {
+                item.classList.add('yo');
+                let matching = item.classList[item.classList.length-2];
+                console.log('matching'+matching);
+                document.querySelectorAll('.'+matching).forEach(match => {
+                    console.log(match);
+                    todo.removeChild(match);
+                })
+
+            })
+
+    })
+    })
     }
 }
         displayTasks();
@@ -176,7 +207,7 @@ myFunction();
 prev.addEventListener('click', prevBtn);
 next.addEventListener('click', nextBtn);
 
-let taskNum = 0;
+
 let taskList = [];
 let checkList = [];
 
