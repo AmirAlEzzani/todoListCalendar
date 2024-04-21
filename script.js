@@ -198,17 +198,37 @@ function addTaskFunc() {
     taskNum++;
     let removeId;
     let identifierId;
+    let howManyTimes = 0;
     document.querySelectorAll('.task').forEach(i => {
         document.querySelectorAll('.removeBtn').forEach(item => {
             item.addEventListener('click', function() {
                 
                 item.classList.add('yo');
-                wakeUp();
-                wakeUp();
 
-
+                document.querySelectorAll('.yo').forEach(getIndex => {
+                    console.log('meep');
+                    let removeMe = getIndex.classList[getIndex.classList.length-2];
+                
+                    let removeMeSplit = removeMe.split("-");
+    
+                    let removeMeNum = removeMeSplit[1];
+                    console.log(taskList);
+                    
+                    
+                howManyTimes++;
+                console.log(howManyTimes +'times');
+                    console.log(removeMeNum);
+                    taskList.splice(removeMeNum, 1);
+                    checkList.splice(removeMeNum, 1);
+                    console.log(taskList);
+                    console.log(checkList);
     
                     taskNum--;
+                })
+
+                wakeUp();
+                wakeUp();
+
                 })
 
 
@@ -221,29 +241,31 @@ function addTaskFunc() {
         });
     function wakeUp() {
         document.querySelectorAll('.yo').forEach(element => {
+
+
             let removeMe = element.classList[element.classList.length-2];
             document.querySelectorAll("."+removeMe).forEach(item => {
                 item.classList.add('yo');
             });
 
             let removeMeSplit = removeMe.split("-");
-            console.log(removeMeSplit+'LOOK HERE')
+
             let removeMeNum = removeMeSplit[1];
             removeId = removeMeNum;
-            console.log(removeMeNum);
-            console.log(removeMe);
+
 
             document.querySelectorAll('.task').forEach(i => {
-            console.log(i.classList);
+
             let checkForLaterTasks = i.classList[i.classList.length-1];
             let checkForLaterTasksSplit = checkForLaterTasks.split('-');
             let checkIfLaterTaskIsLarger = checkForLaterTasksSplit[1];
             if (checkIfLaterTaskIsLarger > removeMeNum) {
-                console.log(i.classList);
+
                 i.classList.add('larger');
             }
             document.querySelectorAll('.yo').forEach(iShouldBeRemoved => {
                 todo.removeChild(iShouldBeRemoved);
+
             })
             document.querySelectorAll('.larger').forEach(iShouldBeDecreased =>{
                 iShouldBeDecreased.classList.remove('larger');
@@ -253,6 +275,7 @@ function addTaskFunc() {
                 iShouldBeDecreased.classList.remove(decreaseMe);
                 decreaseMeNum--;
                 iShouldBeDecreased.classList.add('task-'+decreaseMeNum);
+
             })
         })
 
@@ -264,21 +287,11 @@ function addTaskFunc() {
             let selectedDate = document.querySelector('.selected');
             selectedDate.setAttribute('tasklist', taskList);
             selectedDate.setAttribute('checklist', checkList);
-            console.log(removeId + 'removeMeNum' ); 
+
 
 
             if (identifierId>removeMeNum) {
                 element.classList.add('larger');
-                console.log(element.classList+'e');
-            }
-
-
-
-            if (element.classList.contains('larger')) {
-                console.log('final')
-            }
-
-            if (element.classList.contains('yo')) {
 
             }
         })
@@ -293,11 +306,10 @@ function addTaskFunc() {
                     
                     let checkMeSplit = checkMe.split("-");
                     let checkMeNum = checkMeSplit[1];
-                    console.log(checkMeNum);
+                    console.log(checkList)
 
                     checkList[checkMeNum] = true;
-                    console.log(taskList);
-                    console.log(checkList);
+
                     if (element.tagName !== 'BUTTON') {
                         element.classList.add('completed');
                     }
@@ -308,8 +320,7 @@ function addTaskFunc() {
                     let checkMeNum = checkMeSplit[1];
    
                     checkList[checkMeNum] = false;
-                    console.log(taskList);
-                    console.log(checkList);
+
                 }
                 
             });
