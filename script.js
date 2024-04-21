@@ -196,33 +196,79 @@ function addTaskFunc() {
     remove.classList.add('task');
     remove.classList.add('task-'+taskNum);
     taskNum++;
-    
-    document.querySelectorAll('.removeBtn').forEach(item => {
-        item.addEventListener('click', function() {
-            
-            item.classList.add('yo');
-            wakeUp();
-            console.log(item);
-        });
-    });
-    function wakeUp() {
-    document.querySelectorAll('.yo').forEach(element => {
+    let removeId;
+    let identifierId;
+    document.querySelectorAll('.task').forEach(i => {
+        document.querySelectorAll('.removeBtn').forEach(item => {
+            item.addEventListener('click', function() {
+                
+                item.classList.add('yo');
+                wakeUp();
+                wakeUp();
 
-            let removeMe = element.classList[2];
-            let removeMeSplit = removeMe.split("-");
-            let removeMeNum = removeMeSplit[1];
-            console.log(removeMeNum);
-            console.log(removeMe);
+
+    
+                    taskNum--;
+                })
+
+
+
+
+
+
+
+            });
+        });
+    function wakeUp() {
+        document.querySelectorAll('.yo').forEach(element => {
+            let removeMe = element.classList[element.classList.length-2];
             document.querySelectorAll("."+removeMe).forEach(item => {
                 item.classList.add('yo');
             });
-            todo.removeChild(element);
-            taskList.splice(removeMeNum);
-            checkList.splice(removeMeNum);
+
+            let removeMeSplit = removeMe.split("-");
+            console.log(removeMeSplit+'LOOK HERE')
+            let removeMeNum = removeMeSplit[1];
+            removeId = removeMeNum;
+            console.log(removeMeNum);
+            console.log(removeMe);
+
+            document.querySelectorAll('.task').forEach(i => {
+            console.log(i.classList);
+            let checkForLaterTasks = i.classList[i.classList.length-1];
+            let checkForLaterTasksSplit = checkForLaterTasks.split('-');
+            let checkIfLaterTaskIsLarger = checkForLaterTasksSplit[1];
+            if (checkIfLaterTaskIsLarger > removeMeNum) {
+                console.log(i.classList);
+                i.classList.add('larger');
+            }
+        })
+
+
+
+
+
+
             let selectedDate = document.querySelector('.selected');
             selectedDate.setAttribute('tasklist', taskList);
             selectedDate.setAttribute('checklist', checkList);
-            console.log(checkList);
+            console.log(removeId + 'removeMeNum' ); 
+
+
+            if (identifierId>removeMeNum) {
+                element.classList.add('larger');
+                console.log(element.classList+'e');
+            }
+
+
+
+            if (element.classList.contains('larger')) {
+                console.log('final')
+            }
+
+            if (element.classList.contains('yo')) {
+
+            }
         })
     }
 
