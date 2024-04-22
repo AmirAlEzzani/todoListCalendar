@@ -74,7 +74,7 @@ function myFunction() {
     const addTask = document.getElementById('addTask');
     const createTask = document.getElementById('createTask');
     const taskName = document.getElementById('taskName');
-    const todo = document.getElementById('tasks');
+    const tasks = document.getElementById('tasks');
     let selectedDate = document.querySelector('.selected');
 
     // when page is initially loaded
@@ -153,7 +153,9 @@ function displayTasks() {
     let separateChecks = item.getAttribute('checklist').split(',');
     for (joe = 0; joe<separateTasks.length;joe++) {
         const displayTask = document.createElement('input');
+        tasks.appendChild(displayTask);
         const displayCheck = document.createElement('input');
+        tasks.appendChild(displayCheck);
         displayTask.type = 'text';
         displayCheck.type = 'checkbox';
         displayTask.setAttribute('readonly', true);
@@ -170,33 +172,121 @@ function displayTasks() {
         displayCheck.classList.add('task-'+taskNum);
 
         const remove = document.createElement('button');
+        tasks.appendChild(remove);
         remove.innerText = 'Remove';
         
         remove.classList.add('removeBtn');
         remove.classList.add('task');
         remove.classList.add('task-'+taskNum);
 
-        todo.appendChild(displayTask);
-        todo.appendChild(displayCheck);
-        todo.appendChild(remove);
+
+
         taskNum++;
         document.querySelectorAll('.task').forEach(i => {
         document.querySelectorAll('.removeBtn').forEach(item => {
             item.addEventListener('click', function() {
                 item.classList.add('yo');
-                let matching = item.classList[item.classList.length-2];
+                let matching = item.classList[item.classList.length-2];  
                 console.log('matching'+matching);
-                document.querySelectorAll('.'+matching).forEach(match => {
-                    console.log(match);
-                    todo.removeChild(match);
+                document.querySelectorAll('.yo').forEach(split => {
+                    console.log('once');
+                    let matchSplit = matching.split('-');
+                    let matchNum = matchSplit[1];
+                    separateTasks.splice(matchNum, 1);
+                    separateChecks.splice(matchNum, 1);
+                    console.log(separateTasks);
+                    console.log(separateChecks);
+                    document.querySelectorAll('.day').forEach(update => {
+                        update.setAttribute('tasklist', separateTasks);
+                        update.setAttribute('checklist', separateChecks);
+                    })
                 })
 
+                document.querySelectorAll('.task').forEach(i => {
+                    let updateRemove = document.querySelector('.yo')
+                    let removedTaskClass = updateRemove.classList[updateRemove.classList.length-2]; 
+                    
+                    let removedTaskSplit = removedTaskClass.split('-');
+                    let removedTaskNum = removedTaskSplit[1];
+                    console.log('removenum'+removedTaskNum)
+                    let checkForLaterTasks = i.classList[i.classList.length-1];
+                    let checkForLaterTasksSplit = checkForLaterTasks.split('-');
+                    let checkIfLaterTaskIsLarger = checkForLaterTasksSplit[1];
+                    console.log('checklarge'+checkForLaterTasks)
+                    if (checkIfLaterTaskIsLarger > removedTaskNum) {
+                        console.log('test' + checkIfLaterTaskIsLarger);
+                        i.classList.add('larger');
+                    }})
+
+                    document.querySelectorAll('.yo').forEach(match => {
+                        let deleteMeId = match.classList[match.classList.length-2];
+                        let deleteMeSplit = deleteMeId.split('-');
+                        let deleteMeNum = deleteMeSplit[1];
+                        document.querySelectorAll('.task').forEach(matchingId => {
+                            console.log(matchingId.classList)
+                            if (matchingId.classList.contains('task-'+deleteMeNum)) {
+                            matchingId.classList.add('removeMe');
+                            }
+                        })
+                        document.querySelectorAll('.removeMe').forEach(deleteMe => {
+                            tasks.removeChild(deleteMe);
+                        });
+                        
+                        document.querySelectorAll('.larger').forEach(iShouldBeDecreased =>{
+                            iShouldBeDecreased.classList.remove('larger');
+                            let decreaseMe = iShouldBeDecreased.classList[iShouldBeDecreased.classList.length-1];
+                            let decreaseMeSplit = decreaseMe.split('-');
+                            let decreaseMeNum = decreaseMeSplit[1];
+                            iShouldBeDecreased.classList.remove(decreaseMe);
+                            decreaseMeNum--;
+                            iShouldBeDecreased.classList.add('task-'+decreaseMeNum);
+            
+                        })
+
+                    })
+
+                    taskNum--;
+                
+
+
             })
+            document.querySelectorAll('.checkbox').forEach(check => {
+                check.addEventListener('change', function() {
+                    let checkMe = check.classList[2];
+                    
+
+                    document.querySelectorAll("." +checkMe).forEach(element => {
+                        if (check.checked) {
+                            
+                            let checkMeSplit = checkMe.split("-");
+                            let checkMeNum = checkMeSplit[1];
+                            console.log(separateChecks)
+        
+                            separateChecks[checkMeNum] = true;
+        
+                            if (element.tagName !== 'BUTTON') {
+                                element.classList.add('completed');
+                            }
+                        } 
+                        else {
+                            element.classList.remove('completed');
+                            let checkMeSplit = checkMe.split("-");
+                            let checkMeNum = checkMeSplit[1];
+           
+                            separateChecks[checkMeNum] = false;
+        
+                        }
+                        
+                    });
+                    selectedDate.setAttribute('checklist', separateChecks);
+                });
+            });
 
     })
     })
     }
 }
+        let selectedDate = document.querySelector('.selected');
         displayTasks();
 
         });
@@ -221,7 +311,7 @@ function addTaskFunc() {
     
     const taskChild = document.createElement('input');
     taskChild.type = 'text';
-    todo.appendChild(taskChild);
+    tasks.appendChild(taskChild);
     taskChild.value = createTask.value;
     taskChild.setAttribute('readonly', true);
     createTask.value = '';
@@ -233,7 +323,7 @@ function addTaskFunc() {
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    todo.append(checkbox);
+    tasks.append(checkbox);
     checkbox.classList.add('checkbox');
     checkbox.classList.add('task');
     checkbox.classList.add('task-'+taskNum);
@@ -244,7 +334,7 @@ function addTaskFunc() {
 
     const remove = document.createElement('button');
     remove.innerText = 'Remove';
-    todo.append(remove);
+    tasks.append(remove);
     remove.classList.add('removeBtn');
     remove.classList.add('task');
     remove.classList.add('task-'+taskNum);
@@ -259,7 +349,6 @@ function addTaskFunc() {
                 item.classList.add('yo');
 
                 document.querySelectorAll('.yo').forEach(getIndex => {
-                    console.log('meep');
                     let removeMe = getIndex.classList[getIndex.classList.length-2];
                 
                     let removeMeSplit = removeMe.split("-");
@@ -317,7 +406,7 @@ function addTaskFunc() {
                 i.classList.add('larger');
             }
             document.querySelectorAll('.yo').forEach(iShouldBeRemoved => {
-                todo.removeChild(iShouldBeRemoved);
+                tasks.removeChild(iShouldBeRemoved);
 
             })
             document.querySelectorAll('.larger').forEach(iShouldBeDecreased =>{
