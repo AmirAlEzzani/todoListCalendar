@@ -135,6 +135,14 @@ function myFunction() {
                 if (item.classList.contains('today')) {
                     item.style.backgroundColor = 'wheat';
                 }
+                document.querySelectorAll('.selected').forEach(selected => {
+                selected.addEventListener('click', function() {
+                    if (selected.hasAttribute('tasklist')) {
+                        updateTaskList();
+                        updateCheckList();
+                    }
+                })
+            })
             });
 
             item.classList.add('selected');
@@ -196,7 +204,7 @@ function displayTasks() {
                     separateChecks.splice(matchNum, 1);
                     console.log(separateTasks);
                     console.log(separateChecks);
-                    document.querySelectorAll('.day').forEach(update => {
+                    document.querySelectorAll('.selected').forEach(update => {
                         update.setAttribute('tasklist', separateTasks);
                         update.setAttribute('checklist', separateChecks);
                     })
@@ -300,6 +308,21 @@ next.addEventListener('click', nextBtn);
 
 let taskList = [];
 let checkList = [];
+
+function updateTaskList() {
+    document.querySelectorAll('.selected').forEach(selected => {
+        let listOfTasks = selected.getAttribute('tasklist');
+        let taskArray = listOfTasks.split(',');
+        taskList = taskArray;
+    })
+};
+function updateCheckList() {
+    document.querySelectorAll('.selected').forEach(selected => {
+        let listOfChecks = selected.getAttribute('checklist');
+        let checkArray = listOfChecks.split(',');
+        checkList = checkArray;
+    })
+};
 
 
 function removeTaskFunc() {
@@ -474,4 +497,3 @@ function addTaskFunc() {
 
 
 addTask.addEventListener('click', addTaskFunc);
-
