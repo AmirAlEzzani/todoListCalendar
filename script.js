@@ -22,6 +22,14 @@ function prevBtn() {
         if (item.classList.contains('today')) {
             item.style.backgroundColor = 'wheat';
         }
+        document.querySelectorAll('.selected').forEach(selected => {
+            selected.addEventListener('click', function() {
+                if (selected.hasAttribute('tasklist')) {
+                    updateTaskList();
+                    updateCheckList();
+                }
+            })
+        })
     })
 }
 
@@ -39,8 +47,15 @@ function nextBtn() {
         if (item.classList.contains('today')) {
             item.style.backgroundColor = 'wheat';
         }
+        document.querySelectorAll('.selected').forEach(selected => {
+            selected.addEventListener('click', function() {
+                if (selected.hasAttribute('tasklist')) {
+                    updateTaskList();
+                    updateCheckList();
+                }
+            })
+        })
     })
-    
     
 }
 let taskNum = 0;
@@ -76,6 +91,8 @@ function myFunction() {
     const taskName = document.getElementById('taskName');
     const tasks = document.getElementById('tasks');
     let selectedDate = document.querySelector('.selected');
+    const todo = document.getElementById('todo');
+    const title = document.getElementById('title')
 
     // when page is initially loaded
     document.querySelectorAll('.day').forEach(item => {
@@ -113,6 +130,7 @@ function myFunction() {
         
         // when a date is clicked
         item.addEventListener('click', function() {
+            
             taskNum = 0;
             while (taskList.length > 0) {
                 taskList.splice(0);
@@ -127,6 +145,27 @@ function myFunction() {
                 console.log('removed');
 
             }
+
+            const createTaskInput = document.createElement('input');
+            const addTaskButton = document.createElement('button');
+            createTaskInput.type = 'text';
+            createTaskInput.id = 'createTask';
+            addTaskButton.innerText = 'Add Task';
+            addTaskButton.id = 'addTask';
+
+            if (document.querySelector('#addTask') == true) {
+
+            }
+            else {
+                title.after(addTaskButton);
+                title.after(createTaskInput);
+                
+                const addTask = document.getElementById('addTask');
+                const createTask = document.getElementById('createTask');
+                addTask.addEventListener('click', addTaskFunc);
+            }
+
+
             document.querySelectorAll('.day').forEach(item => {
 
                 item.classList.remove('selected');
@@ -302,8 +341,7 @@ function displayTasks() {
 }
 
 myFunction();
-prev.addEventListener('click', prevBtn);
-next.addEventListener('click', nextBtn);
+
 
 
 let taskList = [];
@@ -330,6 +368,11 @@ function removeTaskFunc() {
         item.remove();
     });
 }
+
+let idStorage = [];
+let taskStorage = [];
+let checkStorage = [];
+
 function addTaskFunc() {
     
     const taskChild = document.createElement('input');
@@ -455,6 +498,7 @@ function addTaskFunc() {
 
 
 
+
             if (identifierId>removeMeNum) {
                 element.classList.add('larger');
 
@@ -492,8 +536,92 @@ function addTaskFunc() {
             selectedDate.setAttribute('checklist', checkList);
         });
     });
+
+    document.querySelectorAll('.day').forEach(day => {
+        if (day.hasAttribute('tasklist')) {
+            let tempId = day.id;
+            if (idStorage.includes(tempId)) {
+                let repeatIndex = idStorage.indexOf(tempId)
+                console.log(repeatIndex)
+                idStorage.splice(repeatIndex);
+                taskStorage.splice(repeatIndex);
+                checkStorage.splice(repeatIndex);
+            }
+            idStorage.push(tempId);
+            taskStorage.push(day.getAttribute('tasklist'));
+            checkStorage.push(day.getAttribute('checklist'));
+            console.log(idStorage);
+            console.log(taskStorage);
+            console.log(checkStorage);
+
+        }
+})
 }
 
 
 
+
 addTask.addEventListener('click', addTaskFunc);
+prev.addEventListener('click', prevBtn);
+next.addEventListener('click', nextBtn);
+
+prev.addEventListener('click', function() {
+    let add = document.querySelector('#addTask');
+    let create = document.querySelector('#createTask');
+    todo.removeChild(add);
+    todo.removeChild(create);
+    while (tasks.firstChild) {
+        tasks.removeChild(tasks.firstChild);
+    }
+
+    var today = new Date();
+    var idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth+1, 0).getMonth();
+    console.log(idMonth+'LOOOOOOOK')
+    for (i = 0; i<idStorage.length;i++) {
+        let checkMonth = idStorage[i];
+        let checkMonthSplit = checkMonth.split('-');
+        let checkMonthNum = checkMonthSplit[2];
+        console.log('month' + checkMonthNum)
+        if (checkMonthNum == idMonth) {
+            console.log('idstorage'+idStorage)
+            document.querySelectorAll('.day').forEach(previouslyStored => {
+                let previouslyStoredId = previouslyStored.id;
+                console.log('check' + previouslyStoredId);
+                if (idStorage.includes(previouslyStoredId)) {
+                    console.log('AAAAAAAAAA'+previouslyStoredId);
+                    previouslyStored.setAttribute('tasklist', taskStorage[i]);
+                    previouslyStored.setAttribute('checklist', checkStorage[i]);
+                }
+            })
+        }
+    }
+ });
+
+
+ next.addEventListener('click', function() {
+     let add = document.querySelector('#addTask');
+     let create = document.querySelector('#createTask');
+     todo.removeChild(add);
+     todo.removeChild(create);
+     while (tasks.firstChild) {
+        tasks.removeChild(tasks.firstChild);
+    }
+
+    var today = new Date();
+    var idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth+1, 0).getMonth();
+    console.log(idMonth+'LOOOOOOOK')
+    for (i = 0; i<idStorage;i++) {
+        let checkMonth = idStorage[i];
+        let checkMonthSplit = checkMonth.split('-');
+        let checkMonthNum = checkMonthSplit[2];
+        console.log('month' + checkMonthNum)
+        if (checkMonthNum == idMonth) {
+            document.querySelectorAll('.day').forEach(previouslyStored => {
+                let previouslyStoredId = previouslyStored.id;
+                if (idStorage.includes(previouslyStoredId)) {
+                    console.log('AAAAAAAAAA'+previouslyStoredId);
+                }
+            })
+        }
+    }
+ });
