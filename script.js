@@ -152,18 +152,16 @@ function myFunction() {
             createTaskInput.id = 'createTask';
             addTaskButton.innerText = 'Add Task';
             addTaskButton.id = 'addTask';
-
-            if (document.querySelector('#addTask') == true) {
-
-            }
-            else {
-                title.after(addTaskButton);
-                title.after(createTaskInput);
+            let preexistingCreate = document.getElementById('createTask')
+            let preexistingAdd = document.getElementById('addTask')
+            todo.removeChild(preexistingAdd);
+            todo.removeChild(preexistingCreate)
+            title.after(addTaskButton);
+            title.after(createTaskInput);
                 
-                const addTask = document.getElementById('addTask');
-                const createTask = document.getElementById('createTask');
-                addTask.addEventListener('click', addTaskFunc);
-            }
+            const addTask = document.getElementById('addTask');
+            const createTask = document.getElementById('createTask');
+            addTask.addEventListener('click', addTaskFunc);
 
 
             document.querySelectorAll('.day').forEach(item => {
@@ -338,6 +336,20 @@ function displayTasks() {
 
         });
     });
+
+    document.querySelectorAll('.checkbox').forEach(checkbox => {
+        checkbox.addEventListener('click', function() {
+            let selected = document.querySelector('.selected')
+            idStorage.push(selected.id);
+            taskStorage.push(taskList);
+            checkStorage.push(checkList);
+
+            console.log('lookatme'+ checkList)
+            console.log('lookhere' + checkStorage)
+
+
+        })
+    })
 }
 
 myFunction();
@@ -375,12 +387,14 @@ let checkStorage = [];
 
 function addTaskFunc() {
     
+    if (createTask.value != '') {
     const taskChild = document.createElement('input');
     taskChild.type = 'text';
     tasks.appendChild(taskChild);
     taskChild.value = createTask.value;
     taskChild.setAttribute('readonly', true);
     createTask.value = '';
+    
     taskChild.classList.add('task');
     taskChild.classList.add('task-'+taskNum);
     taskList.push(taskChild.value);
@@ -397,7 +411,6 @@ function addTaskFunc() {
     selectedDate.setAttribute('checklist', checkList);
     console.log(taskList);
     console.log(checkList);
-
     const remove = document.createElement('button');
     remove.innerText = 'Remove';
     tasks.append(remove);
@@ -518,9 +531,10 @@ function addTaskFunc() {
                     console.log(checkList)
 
                     checkList[checkMeNum] = true;
+                    selectedDate.setAttribute('checklist', checkList);
 
                     if (element.tagName !== 'BUTTON') {
-                        element.classList.add('completed');
+                        element.classList.add;('completed');
                     }
                 } 
                 else {
@@ -529,33 +543,27 @@ function addTaskFunc() {
                     let checkMeNum = checkMeSplit[1];
    
                     checkList[checkMeNum] = false;
-
+                    selectedDate.setAttribute('checklist', checkList);
                 }
                 
             });
-            selectedDate.setAttribute('checklist', checkList);
+            
         });
     });
 
-    document.querySelectorAll('.day').forEach(day => {
-        if (day.hasAttribute('tasklist')) {
-            let tempId = day.id;
-            if (idStorage.includes(tempId)) {
-                let repeatIndex = idStorage.indexOf(tempId)
-                console.log(repeatIndex)
-                idStorage.splice(repeatIndex);
-                taskStorage.splice(repeatIndex);
-                checkStorage.splice(repeatIndex);
-            }
-            idStorage.push(tempId);
-            taskStorage.push(day.getAttribute('tasklist'));
-            checkStorage.push(day.getAttribute('checklist'));
-            console.log(idStorage);
-            console.log(taskStorage);
-            console.log(checkStorage);
 
-        }
+
+document.querySelectorAll('.day').forEach(day => {
+        
+    if (day.hasAttribute('checklist')) {
+        idStorage.push(day.id);
+        taskStorage.push(day.getAttribute('tasklist'))
+        checkStorage.push(day.getAttribute('checklist'))
+        console.log('this'+checkStorage)
+        console.log('this'+checkStorage)
+    }
 })
+}
 }
 
 
@@ -566,10 +574,19 @@ prev.addEventListener('click', prevBtn);
 next.addEventListener('click', nextBtn);
 
 prev.addEventListener('click', function() {
-    let add = document.querySelector('#addTask');
-    let create = document.querySelector('#createTask');
-    todo.removeChild(add);
-    todo.removeChild(create);
+    document.querySelectorAll('.selected').forEach(select => {
+        let selectedIndex = idStorage.indexOf(select.id);
+            checkStorage.splice(selectedIndex, 1, checkList);
+            console.log('actually look' + checkStorage)
+    })
+
+
+    console.log(idStorage);
+    console.log(taskStorage);
+    console.log(checkStorage);
+
+
+
     while (tasks.firstChild) {
         tasks.removeChild(tasks.firstChild);
     }
@@ -599,10 +616,14 @@ prev.addEventListener('click', function() {
 
 
  next.addEventListener('click', function() {
-     let add = document.querySelector('#addTask');
-     let create = document.querySelector('#createTask');
-     todo.removeChild(add);
-     todo.removeChild(create);
+    
+    let debug = idStorage + taskStorage + checkStorage;
+    
+    console.log(debug)
+    console.log(idStorage)
+    console.log(taskStorage)
+    console.log(checkStorage)
+
      while (tasks.firstChild) {
         tasks.removeChild(tasks.firstChild);
     }
