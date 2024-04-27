@@ -5,6 +5,10 @@ const yearName = document.getElementById('yearName');
 const dates = document.getElementById('dates');
 
 
+let idStorage = [];
+let taskStorage = [];
+let checkStorage = [];
+
 var selectedMonth = 1;
 
 function prevBtn() {
@@ -22,14 +26,14 @@ function prevBtn() {
         if (item.classList.contains('today')) {
             item.style.backgroundColor = 'wheat';
         }
-        document.querySelectorAll('.selected').forEach(selected => {
+/*         document.querySelectorAll('.selected').forEach(selected => {
             selected.addEventListener('click', function() {
                 if (selected.hasAttribute('tasklist')) {
                     updateTaskList();
                     updateCheckList();
                 }
             })
-        })
+        }) */
     })
 }
 
@@ -47,14 +51,14 @@ function nextBtn() {
         if (item.classList.contains('today')) {
             item.style.backgroundColor = 'wheat';
         }
-        document.querySelectorAll('.selected').forEach(selected => {
+/*         document.querySelectorAll('.selected').forEach(selected => {
             selected.addEventListener('click', function() {
                 if (selected.hasAttribute('tasklist')) {
                     updateTaskList();
                     updateCheckList();
                 }
             })
-        })
+        }) */
     })
     
 }
@@ -103,7 +107,7 @@ function myFunction() {
         idYearToday = new Date(today.getFullYear(), today.getMonth(), 0).getFullYear();
         idMonthToday = new Date(today.getFullYear(), today.getMonth()).getMonth()+1;
         todayId = "date-" + idYearToday + "-" + idMonthToday + "-" + todaysDate;
-        console.log(todayId);
+
         item.id = fullId;
         if (item.id == todayId) {
             item.classList.add('today');
@@ -130,19 +134,17 @@ function myFunction() {
         
         // when a date is clicked
         item.addEventListener('click', function() {
-            
             taskNum = 0;
+
             while (taskList.length > 0) {
                 taskList.splice(0);
-                console.log(taskList);
-                console.log('removed');
+
 
             }
 
             while (checkList.length > 0) {
                 checkList.splice(0);
-                console.log(checkList);
-                console.log('removed');
+
 
             }
 
@@ -186,26 +188,27 @@ function myFunction() {
             removeTaskFunc();
             item.style.backgroundColor = 'burlywood';
             if (item.hasAttribute('tasklist')) {
-                console.log(item.innerText + " "+ item.getAttribute('tasklist'));
+
             }
             if (item.hasAttribute('checklist')) {
-                console.log(item.innerText + " "+ item.getAttribute('checklist'));
+
             }
 
 function displayTasks() {
 
     let separateTasks = item.getAttribute('tasklist').split(',');
     let separateChecks = item.getAttribute('checklist').split(',');
-    for (joe = 0; joe<separateTasks.length;joe++) {
+    for (f = 0; f<separateTasks.length;f++) {
         const displayTask = document.createElement('input');
-        tasks.appendChild(displayTask);
         const displayCheck = document.createElement('input');
+        tasks.appendChild(displayTask);
+        
         tasks.appendChild(displayCheck);
         displayTask.type = 'text';
         displayCheck.type = 'checkbox';
         displayTask.setAttribute('readonly', true);
-        displayTask.value = separateTasks[joe];
-        if (separateChecks[joe] == 'true') {
+        displayTask.value = separateTasks[f];
+        if (separateChecks[f] == 'true') {
             displayCheck.checked = true;
         }
         displayTask.classList.add('task');
@@ -232,15 +235,14 @@ function displayTasks() {
             item.addEventListener('click', function() {
                 item.classList.add('yo');
                 let matching = item.classList[item.classList.length-2];  
-                console.log('matching'+matching);
+
                 document.querySelectorAll('.yo').forEach(split => {
-                    console.log('once');
+
                     let matchSplit = matching.split('-');
                     let matchNum = matchSplit[1];
                     separateTasks.splice(matchNum, 1);
                     separateChecks.splice(matchNum, 1);
-                    console.log(separateTasks);
-                    console.log(separateChecks);
+
                     document.querySelectorAll('.selected').forEach(update => {
                         update.setAttribute('tasklist', separateTasks);
                         update.setAttribute('checklist', separateChecks);
@@ -253,13 +255,13 @@ function displayTasks() {
                     
                     let removedTaskSplit = removedTaskClass.split('-');
                     let removedTaskNum = removedTaskSplit[1];
-                    console.log('removenum'+removedTaskNum)
+
                     let checkForLaterTasks = i.classList[i.classList.length-1];
                     let checkForLaterTasksSplit = checkForLaterTasks.split('-');
                     let checkIfLaterTaskIsLarger = checkForLaterTasksSplit[1];
-                    console.log('checklarge'+checkForLaterTasks)
+
                     if (checkIfLaterTaskIsLarger > removedTaskNum) {
-                        console.log('test' + checkIfLaterTaskIsLarger);
+
                         i.classList.add('larger');
                     }})
 
@@ -268,7 +270,7 @@ function displayTasks() {
                         let deleteMeSplit = deleteMeId.split('-');
                         let deleteMeNum = deleteMeSplit[1];
                         document.querySelectorAll('.task').forEach(matchingId => {
-                            console.log(matchingId.classList)
+
                             if (matchingId.classList.contains('task-'+deleteMeNum)) {
                             matchingId.classList.add('removeMe');
                             }
@@ -305,7 +307,7 @@ function displayTasks() {
                             
                             let checkMeSplit = checkMe.split("-");
                             let checkMeNum = checkMeSplit[1];
-                            console.log(separateChecks)
+
         
                             separateChecks[checkMeNum] = true;
         
@@ -340,12 +342,10 @@ function displayTasks() {
     document.querySelectorAll('.checkbox').forEach(checkbox => {
         checkbox.addEventListener('click', function() {
             let selected = document.querySelector('.selected')
-            idStorage.push(selected.id);
-            taskStorage.push(taskList);
+
             checkStorage.push(checkList);
 
-            console.log('lookatme'+ checkList)
-            console.log('lookhere' + checkStorage)
+
 
 
         })
@@ -381,9 +381,6 @@ function removeTaskFunc() {
     });
 }
 
-let idStorage = [];
-let taskStorage = [];
-let checkStorage = [];
 
 function addTaskFunc() {
     
@@ -409,8 +406,7 @@ function addTaskFunc() {
     checkbox.classList.add('task-'+taskNum);
     checkList.push(false);
     selectedDate.setAttribute('checklist', checkList);
-    console.log(taskList);
-    console.log(checkList);
+
     const remove = document.createElement('button');
     remove.innerText = 'Remove';
     tasks.append(remove);
@@ -433,16 +429,14 @@ function addTaskFunc() {
                     let removeMeSplit = removeMe.split("-");
     
                     let removeMeNum = removeMeSplit[1];
-                    console.log(taskList);
+
                     
                     
                 howManyTimes++;
-                console.log(howManyTimes +'times');
-                    console.log(removeMeNum);
+
                     taskList.splice(removeMeNum, 1);
                     checkList.splice(removeMeNum, 1);
-                    console.log(taskList);
-                    console.log(checkList);
+
     
                     taskNum--;
                 })
@@ -508,7 +502,8 @@ function addTaskFunc() {
             let selectedDate = document.querySelector('.selected');
             selectedDate.setAttribute('tasklist', taskList);
             selectedDate.setAttribute('checklist', checkList);
-
+            document.querySelectorAll('.selected').forEach(selected => {
+/*             taskStorage.push(selected.getAttribute('tasklist')) */ })
 
 
 
@@ -528,7 +523,13 @@ function addTaskFunc() {
                     
                     let checkMeSplit = checkMe.split("-");
                     let checkMeNum = checkMeSplit[1];
-                    console.log(checkList)
+                    document.querySelectorAll('.selected').forEach(selected => {
+                        console.log((selected.getAttribute('checklist')))
+                        let selectId = selected.id;
+                        let selectIndex = idStorage.indexOf(selectId);
+                        checkStorage.splice(selectIndex, 1, checkList.toString())
+                        console.log(checkStorage)
+                        })
 
                     checkList[checkMeNum] = true;
                     selectedDate.setAttribute('checklist', checkList);
@@ -551,21 +552,38 @@ function addTaskFunc() {
         });
     });
 
+document.querySelectorAll('.selected').forEach(selected=> {
+    let selId = selected.id;
+    if (!idStorage.includes(selId)) {
+        idStorage.push(selId);
+    }
+    if (selected.hasAttribute('tasklist')) {
 
 
-document.querySelectorAll('.day').forEach(day => {
-        
-    if (day.hasAttribute('checklist')) {
-        idStorage.push(day.id);
-        taskStorage.push(day.getAttribute('tasklist'))
-        checkStorage.push(day.getAttribute('checklist'))
-        console.log('this'+checkStorage)
-        console.log('this'+checkStorage)
+        console.log(selId)
+        let index = idStorage.indexOf(selId);
+        console.log(index)
+        taskStorage.splice(index, 1, selected.getAttribute('tasklist'))
     }
 })
-}
-}
 
+
+}
+console.log('hi')
+document.querySelectorAll('.day').forEach(day => {
+        console.log('bamama'+ day.getAttribute('tasklist'))
+        let b = idStorage.indexOf(day.id)
+        
+    if (day.hasAttribute('checklist')) {
+        console.log('apple'+ day.getAttribute('tasklist'))
+            console.log('LOOOOOK'+ day.getAttribute('tasklist'))
+            /* taskStorage.splice(b, 1, day.getAttribute('tasklist')) */
+            checkStorage.splice(b, 1, day.getAttribute('checklist'))
+
+    }
+
+})
+}
 
 
 
@@ -573,41 +591,41 @@ addTask.addEventListener('click', addTaskFunc);
 prev.addEventListener('click', prevBtn);
 next.addEventListener('click', nextBtn);
 
-prev.addEventListener('click', function() {
-    document.querySelectorAll('.selected').forEach(select => {
-        let selectedIndex = idStorage.indexOf(select.id);
-            checkStorage.splice(selectedIndex, 1, checkList);
-            console.log('actually look' + checkStorage)
+document.querySelectorAll('.day').forEach(day => {
+    day.addEventListener('click', function() {
+        console.log(idStorage);
+        console.log(taskStorage);
+        console.log(checkStorage);
     })
+})
 
 
-    console.log(idStorage);
-    console.log(taskStorage);
-    console.log(checkStorage);
 
+prev.addEventListener('click', function() {
 
+    console.log(idStorage)
+    console.log(taskStorage)
+    console.log(checkStorage)
 
     while (tasks.firstChild) {
         tasks.removeChild(tasks.firstChild);
     }
 
     var today = new Date();
-    var idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth+1, 0).getMonth();
-    console.log(idMonth+'LOOOOOOOK')
+
     for (i = 0; i<idStorage.length;i++) {
         let checkMonth = idStorage[i];
         let checkMonthSplit = checkMonth.split('-');
         let checkMonthNum = checkMonthSplit[2];
-        console.log('month' + checkMonthNum)
+
         if (checkMonthNum == idMonth) {
-            console.log('idstorage'+idStorage)
             document.querySelectorAll('.day').forEach(previouslyStored => {
                 let previouslyStoredId = previouslyStored.id;
-                console.log('check' + previouslyStoredId);
-                if (idStorage.includes(previouslyStoredId)) {
-                    console.log('AAAAAAAAAA'+previouslyStoredId);
-                    previouslyStored.setAttribute('tasklist', taskStorage[i]);
-                    previouslyStored.setAttribute('checklist', checkStorage[i]);
+                if (idStorage[i] == previouslyStoredId) {
+                    previouslyStored.setAttribute('tasklist', taskStorage[i])
+                    previouslyStored.setAttribute('checklist', checkStorage[i])
+                    console.log('tl'+taskList)
+                    console.log('ts'+taskStorage)
                 }
             })
         }
@@ -617,30 +635,30 @@ prev.addEventListener('click', function() {
 
  next.addEventListener('click', function() {
     
-    let debug = idStorage + taskStorage + checkStorage;
-    
-    console.log(debug)
     console.log(idStorage)
     console.log(taskStorage)
     console.log(checkStorage)
+
 
      while (tasks.firstChild) {
         tasks.removeChild(tasks.firstChild);
     }
 
     var today = new Date();
-    var idMonth = new Date(today.getFullYear(), today.getMonth()+selectedMonth+1, 0).getMonth();
-    console.log(idMonth+'LOOOOOOOK')
-    for (i = 0; i<idStorage;i++) {
+
+    for (i = 0; i<idStorage.length;i++) {
         let checkMonth = idStorage[i];
         let checkMonthSplit = checkMonth.split('-');
         let checkMonthNum = checkMonthSplit[2];
-        console.log('month' + checkMonthNum)
+
         if (checkMonthNum == idMonth) {
             document.querySelectorAll('.day').forEach(previouslyStored => {
                 let previouslyStoredId = previouslyStored.id;
-                if (idStorage.includes(previouslyStoredId)) {
-                    console.log('AAAAAAAAAA'+previouslyStoredId);
+                if (idStorage[i] == previouslyStoredId) {
+                    previouslyStored.setAttribute('tasklist', taskStorage[i])
+                    previouslyStored.setAttribute('checklist', checkStorage[i])
+                    console.log('tl'+taskList)
+                    console.log('ts'+taskStorage)
                 }
             })
         }
