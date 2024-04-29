@@ -2,32 +2,81 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Helvetica;
+    font-size: 1.25rem;
 }
 
+h1 {
+    font-size: 2rem;
+}
 
 body {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: left;
+    background-color: rgb(18, 18, 18);
+    display: block;
 }
 
 .calendar {
     width: 500px;
-    height: auto;
+    height: 400px;
     display: flex;
     flex-direction: column;
-    background-color: aqua;
-
+    background-color: rgb(30,30,30);
+    font-family: Helvetica;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    border: solid #f5f5f5;
+    border-radius: 10px;
 }
 
 #todo {
     margin: auto;
     width: 25%;
     height: 500px;
-    background-color: red;
-    padding: 70px 125px;
+    padding: none;
+    border: 5px;
+    background-color: rgb(30,30,30);
+}
 
+#addTask {
+    color: rgb(30,30,30);
+    background: linear-gradient(93.4176deg, rgb(239, 94, 239) 0%, rgb(255, 95, 151) 51.2058%, rgb(255, 126, 137) 94.8395%);
+    margin-top: 10px;
+    border: none;
+    display: inline;
+    width: 7.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    height: 2rem;
+    text-align: center;
+    border-style: solid;
+}
+
+#createTask {
+    color: #f5f5f5;
+    background-color: rgb(30,30,30);
+    margin-top: 10px;
+    display: inline;
+    width: 15rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    border-color: #f5f5f5;
+    border-style: solid;
+    height: 2rem;
+    text-align: left;
+    padding-left: .25rem;
+}
+
+
+#title {
+    text-align: center;
+    color: #f5f5f5;
 }
 
 .header {
@@ -35,6 +84,16 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    color: #f5f5f5;
+    
+}
+
+#monthName {
+    margin: 5px;
+}
+
+#yearName {
+    margin: 5px;
 }
 
 .header button {
@@ -43,13 +102,25 @@ body {
     justify-content: center;
     border: none;
     padding: 2px 5px;
-    border-radius: 9px;
-    background-color: white;    
+    margin: 10px 5px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    color: rgb(30,30,30)
+}
+
+.header button:hover {
+    background-color: red;
+    transition: all .25s;
 }
 
 .days {
+    margin-bottom: 1rem;
+    padding-bottom: 7px;
     display: grid;
-    grid-template-columns: repeat(7,1fr)
+    grid-template-columns: repeat(7,1fr);
+    box-shadow: 0px 1px #f5f5f5;
+    
+
 }
 
 #dates {
@@ -59,13 +130,27 @@ body {
 
 .dayHeader {
     text-align: center;
+    color: red;
 }
 
 .day {
     text-align: center;
-    height: 25px;
+    height: 40px;
     width: 40px;
     margin: auto;
+    color: rgb(125, 125, 125);
+    background-color: transparent;
+    font-family: Helvetica;
+    border: none;
+    
+}
+
+.incomplete {
+    color: rgb(200, 200, 200)
+}
+
+.complete {
+    color: rgb(85, 85, 85)
 }
 
 .firstDayOffset {
@@ -76,12 +161,19 @@ body {
 }
 
 .today {
-    background-color: wheat;
+    color: red;
+    font-weight: bold;
 }
 
 
 .day:hover {
-    background-color: green;
+    color: #f5f5f5;
+    text-shadow:
+    -.4px -.4px 0 #fff,
+    .4px -.4px 0 #fff,
+    -.4px .4px 0 #fff,
+    .4px .4px 0 #fff;
+    transition: all 1s;
 }
 
 .completed {
@@ -92,4 +184,20 @@ body {
 
 .hidden {
     display: none;
+}
+
+.selected {
+    color: #f5f5f5;
+    text-decoration: underline;
+    text-decoration-color: red;
+}
+
+#createTask:focus {
+    border-color: red;
+    outline: none;
+}
+
+#addTask:hover {
+    background: linear-gradient(-93.4176deg, rgb(239, 94, 239) 0%, rgb(255, 95, 151) 51.2058%, rgb(255, 126, 137) 94.8395%);
+    transition: background 1s;
 }

@@ -22,9 +22,9 @@ function prevBtn() {
         if (item.id != todayId) {
             item.classList.remove('today');
         }
-        item.style.backgroundColor = 'white';
+        /* item.style.backgroundColor = 'white'; */
         if (item.classList.contains('today')) {
-            item.style.backgroundColor = 'wheat';
+            /* item.style.backgroundColor = 'wheat'; */
         }
 /*         document.querySelectorAll('.selected').forEach(selected => {
             selected.addEventListener('click', function() {
@@ -47,9 +47,9 @@ function nextBtn() {
         if (item.id != todayId) {
             item.classList.remove('today');
         }
-        item.style.backgroundColor = 'white';
+        /* item.style.backgroundColor = 'white'; */
         if (item.classList.contains('today')) {
-            item.style.backgroundColor = 'wheat';
+            /* item.style.backgroundColor = 'wheat'; */
         }
 /*         document.querySelectorAll('.selected').forEach(selected => {
             selected.addEventListener('click', function() {
@@ -113,22 +113,22 @@ function myFunction() {
             item.classList.add('today');
         }
         if (item.classList.contains('selected')) {
-            item.style.backgroundColor = 'burlywood';
+            /* item.style.backgroundColor = 'burlywood'; */
         }
         if (item.id != todayId) {
             item.classList.remove('today');
         }
         if (item.classList.contains('today')) {
-            item.style.backgroundColor = 'wheat';
+            /* item.style.backgroundColor = 'wheat'; */
             item.classList.add('selected');
             
         }
         if (item.classList.contains('selected')) {
-            item.style.backgroundColor = 'burlywood';
+            /* item.style.backgroundColor = 'burlywood'; */
         }
         else {
             item.classList.remove('selected');
-            item.style.backgroundColor = 'white';
+            /* item.style.backgroundColor = 'white'; */
         }
 
         
@@ -170,9 +170,9 @@ function myFunction() {
 
                 item.classList.remove('selected');
 
-                item.style.backgroundColor = 'white';
+                /* item.style.backgroundColor = 'white'; */
                 if (item.classList.contains('today')) {
-                    item.style.backgroundColor = 'wheat';
+                    /* item.style.backgroundColor = 'wheat'; */
                 }
                 document.querySelectorAll('.selected').forEach(selected => {
                 selected.addEventListener('click', function() {
@@ -186,7 +186,7 @@ function myFunction() {
 
             item.classList.add('selected');
             removeTaskFunc();
-            item.style.backgroundColor = 'burlywood';
+            /* item.style.backgroundColor = 'burlywood'; */
             if (item.hasAttribute('tasklist')) {
 
             }
@@ -326,6 +326,19 @@ function displayTasks() {
                         
                     });
                     selectedDate.setAttribute('checklist', separateChecks);
+
+                    document.querySelectorAll('.day').forEach(day =>{
+                        let dayAttribute = day.getAttribute('checklist');
+                        let attributeSplit = dayAttribute.split(',');
+                        if (attributeSplit.includes('false')) {
+                            day.classList.remove('complete');
+                            day.classList.add('incomplete');
+                        }
+                        else if (!attributeSplit.includes('false') && attributeSplit.includes('true')) {
+                            day.classList.remove('incomplete')
+                            day.classList.add('complete');
+                        }
+                    })
                 });
             });
 
@@ -345,7 +358,18 @@ function displayTasks() {
 
             checkStorage.push(checkList);
 
-
+            document.querySelectorAll('.day').forEach(day =>{
+                let dayAttribute = day.getAttribute('checklist');
+                let attributeSplit = dayAttribute.split(',');
+                if (attributeSplit.includes('false')) {
+                    day.classList.remove('complete');
+                    day.classList.add('incomplete');
+                }
+                else if (!attributeSplit.includes('false') && attributeSplit.includes('true')) {
+                    day.classList.remove('incomplete')
+                    day.classList.add('complete');
+                }
+            })
 
 
         })
@@ -548,7 +572,18 @@ function addTaskFunc() {
                 }
                 
             });
-            
+            document.querySelectorAll('.day').forEach(day =>{
+                let dayAttribute = day.getAttribute('checklist');
+                let attributeSplit = dayAttribute.split(',');
+                if (attributeSplit.includes('false')) {
+                    day.classList.remove('complete');
+                    day.classList.add('incomplete');
+                }
+                else if (!attributeSplit.includes('false') && attributeSplit.includes('true')) {
+                    day.classList.remove('incomplete')
+                    day.classList.add('complete');
+                }
+            })
         });
     });
 
@@ -582,6 +617,19 @@ document.querySelectorAll('.day').forEach(day => {
 
     }
 
+})
+
+document.querySelectorAll('.day').forEach(day =>{
+    let dayAttribute = day.getAttribute('checklist');
+    let attributeSplit = dayAttribute.split(',');
+    if (attributeSplit.includes('false')) {
+        day.classList.remove('complete');
+        day.classList.add('incomplete');
+    }
+    else if (!attributeSplit.includes('false') && attributeSplit.includes('true')) {
+        day.classList.remove('incomplete')
+        day.classList.add('complete');
+    }
 })
 }
 
