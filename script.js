@@ -1,3 +1,5 @@
+import Axios from 'axios'
+
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
 const monthName = document.getElementById('monthName');
@@ -8,6 +10,16 @@ const dates = document.getElementById('dates');
 let idStorage = [];
 let taskStorage = [];
 let checkStorage = [];
+
+const addStorage = () => {
+    Axios.post('http://localhost:3001/create', {
+        date: idStorage, 
+        tasklist: taskStorage, 
+        checklist: checkStorage
+    }).then(()=> {
+        console.log('success')
+    })
+}
 
 var selectedMonth = 1;
 
@@ -595,10 +607,10 @@ document.querySelectorAll('.selected').forEach(selected=> {
     if (selected.hasAttribute('tasklist')) {
 
 
-        console.log(selId)
+        console.log(selId);
         let index = idStorage.indexOf(selId);
-        console.log(index)
-        taskStorage.splice(index, 1, selected.getAttribute('tasklist'))
+        console.log(index);
+        taskStorage.splice(index, 1, selected.getAttribute('tasklist'));
     }
 })
 

@@ -46,7 +46,6 @@ body {
     color: rgb(30,30,30);
     background: linear-gradient(93.4176deg, rgb(239, 94, 239) 0%, rgb(255, 95, 151) 51.2058%, rgb(255, 126, 137) 94.8395%);
     margin-top: 10px;
-    border: none;
     display: inline;
     width: 7.5rem;
     margin-left: auto;
@@ -54,7 +53,7 @@ body {
     border-radius: 20px;
     height: 2rem;
     text-align: center;
-    border-style: solid;
+    border: white solid 2px;
 }
 
 #createTask {
@@ -62,8 +61,8 @@ body {
     background-color: rgb(30,30,30);
     margin-top: 10px;
     display: inline;
-    width: 15rem;
-    margin-left: auto;
+    width: 14.5rem;
+    margin-left: 15px;
     margin-right: auto;
     border-radius: 20px;
     border-color: #f5f5f5;
@@ -111,6 +110,7 @@ body {
 .header button:hover {
     background-color: red;
     transition: all .25s;
+    cursor: pointer;
 }
 
 .days {
@@ -199,5 +199,9 @@ body {
 
 #addTask:hover {
     background: linear-gradient(-93.4176deg, rgb(239, 94, 239) 0%, rgb(255, 95, 151) 51.2058%, rgb(255, 126, 137) 94.8395%);
-    transition: background 1s;
+    cursor: pointer;
+}
+
+#addTask:active {
+    background: linear-gradient(-93.4176deg, rgb(238, 113, 238) 0%, rgb(255, 113, 163) 51.2058%, rgb(255, 152, 161) 94.8395%);
 }
