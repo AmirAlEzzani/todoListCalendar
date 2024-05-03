@@ -1,4 +1,3 @@
-import Axios from 'axios'
 
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
@@ -10,17 +9,6 @@ const dates = document.getElementById('dates');
 let idStorage = [];
 let taskStorage = [];
 let checkStorage = [];
-
-const addStorage = () => {
-    Axios.post('http://localhost:3001/create', {
-        date: idStorage, 
-        tasklist: taskStorage, 
-        checklist: checkStorage
-    }).then(()=> {
-        console.log('success')
-    })
-}
-
 var selectedMonth = 1;
 
 function prevBtn() {
