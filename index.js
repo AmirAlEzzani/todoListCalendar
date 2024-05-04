@@ -1,5 +1,6 @@
 import express from 'express'
 import mysql from 'mysql2'
+import cors from 'cors'; 
 
 const app = express()
 const db = mysql.createConnection({
@@ -10,7 +11,7 @@ const db = mysql.createConnection({
 })
 
 app.use(express.json())
-
+app.use(cors());
 app.post('/', (req,res) => {
     const query = 'INSERT INTO tasks (`date`, `tasklist`, `checklist`) VALUES (?)'
     const values = [

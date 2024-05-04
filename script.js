@@ -5,11 +5,17 @@ const monthName = document.getElementById('monthName');
 const yearName = document.getElementById('yearName');
 const dates = document.getElementById('dates');
 
+fetch("http://localhost:8800/tasks/")
+    .then (response => response.json())
+    .then (data => console. log(data))
+    .catch (error => console.log(error));
 
 let idStorage = [];
 let taskStorage = [];
 let checkStorage = [];
 var selectedMonth = 1;
+
+
 
 function prevBtn() {
     while (dates.firstChild) {
