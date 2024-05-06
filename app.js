@@ -3,6 +3,7 @@ import express from 'express'
 import { getTasks, getTask, createTask} from './server.js'
 
 const app = express()
+app.use(express.json())
 
 app.get('/tasks', async (req, res) => {
     const tasks = await getTasks()
@@ -17,7 +18,8 @@ app.get('/tasks/:id', async (req, res) => {
 
 app.post('/tasks', async (req, res) => {
     const {date, tasklist, checklist} = req.body
-    res.send(tasks)
+    const task = await createTask(date, tasklist, checklist)
+    res.status(201).send(task)
 })
 
 app.use((err, req, res, next) => {
