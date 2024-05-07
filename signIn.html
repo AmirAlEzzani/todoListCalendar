@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
-    <script type="module" src="auth.js" defer></script>
+    <script type="module" src="signIn.js" defer></script>
 </head>
 
 <body>
@@ -15,9 +15,14 @@
         <input type="password" placeholder="Password" id="password" required>
         <button id="login">Log In</button>
         <button id="google">Google</button>
-        <span><span>Don't have an account? </span><span>Sign Up</span></span>
+        <span><span>Don't have an account? </span><button id="signUp">Sign Up</button></span>
 
     </div>
 </body>
-
+<script>
+    const signUp = document.getElementById('signUp');
+    signUp.addEventListener('click', function() {
+        window.location.href = 'signUp.html';
+    })
+</script>
 </html>
