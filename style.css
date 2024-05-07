@@ -24,7 +24,7 @@ body {
     height: 400px;
     display: flex;
     flex-direction: column;
-    background-color: rgb(30,30,30);
+    background-color: rgb(30, 30, 30);
     font-family: Helvetica;
     margin: auto;
     margin-top: 100px;
@@ -39,11 +39,11 @@ body {
     height: 500px;
     padding: none;
     border: 5px;
-    background-color: rgb(30,30,30);
+    background-color: rgb(30, 30, 30);
 }
 
 #addTask {
-    color: rgb(30,30,30);
+    color: rgb(30, 30, 30);
     background: linear-gradient(93.4176deg, rgb(239, 94, 239) 0%, rgb(255, 95, 151) 51.2058%, rgb(255, 126, 137) 94.8395%);
     margin-top: 10px;
     display: inline;
@@ -58,7 +58,7 @@ body {
 
 #createTask {
     color: #f5f5f5;
-    background-color: rgb(30,30,30);
+    background-color: rgb(30, 30, 30);
     margin-top: 10px;
     display: inline;
     width: 14.5rem;
@@ -84,7 +84,7 @@ body {
     align-items: center;
     padding: 20px;
     color: #f5f5f5;
-    
+
 }
 
 #monthName {
@@ -104,7 +104,7 @@ body {
     margin: 10px 5px;
     border-radius: 5px;
     background-color: #f5f5f5;
-    color: rgb(30,30,30)
+    color: rgb(30, 30, 30)
 }
 
 .header button:hover {
@@ -117,15 +117,15 @@ body {
     margin-bottom: 1rem;
     padding-bottom: 7px;
     display: grid;
-    grid-template-columns: repeat(7,1fr);
+    grid-template-columns: repeat(7, 1fr);
     box-shadow: 0px 1px #f5f5f5;
-    
+
 
 }
 
 #dates {
     display: grid;
-    grid-template-columns: repeat(7,1fr)
+    grid-template-columns: repeat(7, 1fr)
 }
 
 .dayHeader {
@@ -142,7 +142,7 @@ body {
     background-color: transparent;
     font-family: Helvetica;
     border: none;
-    
+
 }
 
 .incomplete {
@@ -169,10 +169,10 @@ body {
 .day:hover {
     color: #f5f5f5;
     text-shadow:
-    -.4px -.4px 0 #fff,
-    .4px -.4px 0 #fff,
-    -.4px .4px 0 #fff,
-    .4px .4px 0 #fff;
+        -.4px -.4px 0 #fff,
+        .4px -.4px 0 #fff,
+        -.4px .4px 0 #fff,
+        .4px .4px 0 #fff;
     transition: all 1s;
 }
 
