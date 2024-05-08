@@ -4,7 +4,6 @@
   "type": "module",
   "main": "script.js",
   "scripts": {
-    "dev": "npx nodemon app.js"
   },
   "keywords": [],
   "author": "",

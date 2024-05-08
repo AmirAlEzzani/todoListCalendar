@@ -6,8 +6,6 @@ const yearName = document.getElementById('yearName');
 const dates = document.getElementById('dates');
 
 
-
-
 let idStorage = [];
 let taskStorage = [];
 let checkStorage = [];

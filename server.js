@@ -23,18 +23,16 @@ export async function getTask(id) {
     return rows
 }
 
-export async function createTask(date, tasklist, checklist) {
+export async function createTasks(userid, date, tasklist, checklist) {
     const [result] = await pool.query(`
-    INSERT INTO tasks (date, tasklist, checklist)
-    VALUES (?, ?, ?)
-    `, [date, tasklist, checklist])
+    INSERT INTO tasks (userid, date, tasklist, checklist)
+    VALUES (?, ?, ?, ?)
+    `, [userid, date, tasklist, checklist])
     return {
-        id: result.insertId,
+        id,
+        userid,
         date,
         tasklist,
         checklist
     }
 }
-
-const result = await createTask('2024-05-01', 'drive', 'true')
-console.log(result)
