@@ -17,13 +17,10 @@
 <body>
     <div class="calendar">
         <div class="header">
-            <button id="prev">
-                < </button>
-                    <h1 id="monthName"></h1>
-                    <h1 id="yearName"></h1>
-                    <button id="next">
-                        >
-                    </button>
+            <button id="prev">Prev</button>
+            <h1 id="monthName"></h1>
+            <h1 id="yearName"></h1>
+            <button id="next">Next</button>
         </div>
         <div class="days">
             <div class="dayHeader">S</div>
@@ -51,6 +48,8 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
+        import { createTasks, removeTask, updateTasks } from './server.js'
+
         const firebaseConfig = {
             apiKey: "AIzaSyB8QVC-W-rGVm9E9ecgge8EkzR-0iAXrpc",
             authDomain: "todocalendar-412f4.firebaseapp.com",
@@ -59,27 +58,50 @@
             messagingSenderId: "390855221798",
             appId: "1:390855221798:web:9e0751fd800b01bc0f7ce7",
             measurementId: "G-CRY0V56CX4"
-        };  
+        };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         console.log('hi')
         onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
-            console.log(uid)
-            // ...
-        } else {
-            // User is signed out
-            // ...
-            console.log('an error has occurred')
-        }
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                const uid = user.uid;
+                console.log(uid)
+                // ...
+            } else {
+                // User is signed out
+                // ...
+                console.log('an error has occurred')
+            }
         });
+
+        document.querySelectorAll('.day').forEach(day => {
+            if (day.hasAttribute('tasklist')) {
+
+            }
+            let addBtn = document.querySelector('#addTask')
+            addBtn.addEventListener('click', function() {
+                let dayTasks = day.getAttribute('tasklist');
+                let dayChecks = day.getAttribute('checklist');
+                if (dayTasks != null) {
+                    updateTasks(uid, day.id, dayTasks, dayChecks)
+                }
+                else if (dayTasks == null) {
+                    createTasks(uid, day.id, dayTasks, dayChecks)
+                }
+            document.querySelectorAll('.removeBtn').forEach(remove => {
+                let selected = document.querySelector('.selected')
+                removeTask(uid, selected.id)
+            })
+        })
+        })
         
 
-        
+
+
+
     </script>
 </body>
 
