@@ -717,16 +717,6 @@ next.addEventListener('click', function () {
 
 
 const userid = 'aij89juij89'
-document.querySelector('#addTask').addEventListener('click', function() {
-    let selectDate = null;
-    let dateInput = 'date-2024-5-10';
-    let tasklistInput = 'work,eat'
-    let checklistInput = 'false,true'
-
-    dbQuery(dateInput, tasklistInput, checklistInput)
-})
-
-// Send data to the server
 
 function dbQuery(dateInput, tasklistInput, checklistInput) {
     const date = dateInput;
@@ -754,3 +744,63 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     console.error('There was a problem with your fetch operation:', error);
     });
 }
+
+document.querySelectorAll('#addTask').forEach(addBtn => {
+    // if date already exists, replace it
+        addBtn.addEventListener('click', function() {
+            
+            let selectDate = document.querySelector('.selected');
+            let dateInput = selectDate.id;
+            let tasklistInput = selectDate.getAttribute('tasklist');
+            let checklistInput = selectDate.getAttribute('checklist');
+        
+        
+            dbQuery(dateInput, tasklistInput, checklistInput)
+        })
+})
+
+document.querySelectorAll('.checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        let selectDate = document.querySelector('.selected');
+        let dateInput = selectDate.id;
+        let tasklistInput = selectDate.getAttribute('tasklist');
+        let checklistInput = selectDate.getAttribute('checklist');
+        dbQuery(dateInput, tasklistInput, checklistInput)
+    })
+    //this updates before the date attribute does, so im gonna have to put this straight into each of the funcs directly
+
+})
+
+
+function dbDelete(dateInput) {
+    const url = `http://localhost:8000/tasks?date=${dateInput}`;
+    
+    fetch(url, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data deleted successfully:', data);
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+}
+
+
+document.querySelectorAll('.removeBtn').forEach(remove => {
+    remove.addEventListener('click', function() {
+        console.log('remove')
+        let selectDate = document.querySelector('.selected');
+        let dateInput = selectDate.id;
+        dbDelete(dateInput)
+    })
+});
