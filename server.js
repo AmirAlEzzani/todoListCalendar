@@ -1,5 +1,7 @@
 import mysql from 'mysql2'
 import dotenv from 'dotenv'
+import cors from 'cors'
+
 dotenv.config()
 
 const pool = mysql.createPool({
@@ -22,25 +24,19 @@ export async function getTask(id) {
     `, [id])
     return rows
 }
+const tasks = await getTask(18)
+console.log(await getTask(18))
 
-export async function createTasks(uid, date, tasklist, checklist) {
+
+export async function createTasks(userid, date, tasklist, checklist) {
     const [result] = await pool.query(`
     INSERT INTO tasks (userid, date, tasklist, checklist)
     VALUES (?, ?, ?, ?)
-    `, [uid, date, tasklist, checklist])
-    return result;
+    `, [userid, date, tasklist, checklist])
+    return {
+        userid,
+        date,
+        tasklist,
+        checklist
+    }
 }
-
-export async function removeTask(uid, date) {
-    const [result] = await pool.query(`
-    DELETE FROM tasks WHERE userid=(?) AND date=(?)`, [uid, date])
-    return result;
-}
-
-export async function updateTasks(uid, date, tasklist, checklist) {
-    const [result] = await pool.query(`
-    replace from tasks where  userid=(?) AND date=(?), replace tasklist and checklist
-    (?, ?)`, [uid, date, tasklist, checklist])
-}
-
-// get id of matching user id and date, replace tasklist and checklist with new

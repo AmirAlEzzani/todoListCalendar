@@ -1,4 +1,5 @@
 
+
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
 const monthName = document.getElementById('monthName');
@@ -416,6 +417,7 @@ function addTaskFunc() {
         taskChild.type = 'text';
         tasks.appendChild(taskChild);
         taskChild.value = createTask.value;
+        let name = createTask.value; 
         taskChild.setAttribute('readonly', true);
         createTask.value = '';
 
@@ -608,14 +610,10 @@ function addTaskFunc() {
 
 
     }
-    console.log('hi')
     document.querySelectorAll('.day').forEach(day => {
-        console.log('bamama' + day.getAttribute('tasklist'))
         let b = idStorage.indexOf(day.id)
 
         if (day.hasAttribute('checklist')) {
-            console.log('apple' + day.getAttribute('tasklist'))
-            console.log('LOOOOOK' + day.getAttribute('tasklist'))
             /* taskStorage.splice(b, 1, day.getAttribute('tasklist')) */
             checkStorage.splice(b, 1, day.getAttribute('checklist'))
 
@@ -716,3 +714,43 @@ next.addEventListener('click', function () {
         }
     }
 });
+
+
+const userid = 'aij89juij89'
+document.querySelector('#addTask').addEventListener('click', function() {
+    let selectDate = null;
+    let dateInput = 'date-2024-5-10';
+    let tasklistInput = 'work,eat'
+    let checklistInput = 'false,true'
+
+    dbQuery(dateInput, tasklistInput, checklistInput)
+})
+
+// Send data to the server
+
+function dbQuery(dateInput, tasklistInput, checklistInput) {
+    const date = dateInput;
+    const tasklist = tasklistInput;
+    const checklist = checklistInput;
+
+
+    fetch('http://localhost:8000/tasks', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ userid, date, tasklist, checklist })
+    })
+    .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+    })
+    .then(data => {
+    console.log('Data sent successfully:', data);
+    })
+    .catch(error => {
+    console.error('There was a problem with your fetch operation:', error);
+    });
+}

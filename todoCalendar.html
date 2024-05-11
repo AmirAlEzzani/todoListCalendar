@@ -9,9 +9,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,100&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Poppins:wght@400;600&family=Roboto:ital,wght@0,300;0,400;0,700;1,100&display=swap" rel="stylesheet">
+    
+    <script src="script.js" defer></script>
+<!--     <script type="module" src="dbfuncs.js"></script> -->
 </head>
 
 <body>
@@ -42,67 +43,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
-        import { createTasks, removeTask, updateTasks } from './server.js'
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB8QVC-W-rGVm9E9ecgge8EkzR-0iAXrpc",
-            authDomain: "todocalendar-412f4.firebaseapp.com",
-            projectId: "todocalendar-412f4",
-            storageBucket: "todocalendar-412f4.appspot.com",
-            messagingSenderId: "390855221798",
-            appId: "1:390855221798:web:9e0751fd800b01bc0f7ce7",
-            measurementId: "G-CRY0V56CX4"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        console.log('hi')
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/auth.user
-                const uid = user.uid;
-                console.log(uid)
-                // ...
-            } else {
-                // User is signed out
-                // ...
-                console.log('an error has occurred')
-            }
-        });
-
-        document.querySelectorAll('.day').forEach(day => {
-            if (day.hasAttribute('tasklist')) {
-
-            }
-            let addBtn = document.querySelector('#addTask')
-            addBtn.addEventListener('click', function() {
-                let dayTasks = day.getAttribute('tasklist');
-                let dayChecks = day.getAttribute('checklist');
-                if (dayTasks != null) {
-                    updateTasks(uid, day.id, dayTasks, dayChecks)
-                }
-                else if (dayTasks == null) {
-                    createTasks(uid, day.id, dayTasks, dayChecks)
-                }
-            document.querySelectorAll('.removeBtn').forEach(remove => {
-                let selected = document.querySelector('.selected')
-                removeTask(uid, selected.id)
-            })
-        })
-        })
-        
-
-
-
-
-    </script>
 </body>
 
 </html>

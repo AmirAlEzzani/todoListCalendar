@@ -31,8 +31,7 @@ submit.addEventListener('click', function (event) {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            alert('Logging In...');
-            window.location.href = 'todoCalendar.html';
+
             // ...
         })
         .catch((error) => {
@@ -47,6 +46,12 @@ submit.addEventListener('click', function (event) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
             const uid = user.uid;  
+            console.log(uid);
+            alert('Logging In...');
+            window.location.href = 'todoCalendar.html';
+            console.log(uid);
+            let uidField = document.getElementById('uid')
+            uidField.innerText = uid;
             // ...
           } else {
             // User is signed out
@@ -56,4 +61,7 @@ submit.addEventListener('click', function (event) {
 });
             
   
-export const userid = uid;
+const signUp = document.getElementById('signUp');
+signUp.addEventListener('click', function() {
+    window.location.href = 'signUp.html';
+})
