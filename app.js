@@ -1,5 +1,5 @@
 import express from 'express'
-import { getTasks, getTask, createTasks } from './server.js'
+import { getTasks, getTask, createTasks, deleteTasks } from './server.js'
 import cors from 'cors'
 
 
@@ -21,6 +21,12 @@ app.get('/tasks/:id', async (req, res) => {
 app.post('/tasks', async (req, res) => {
     const { userid, date, tasklist, checklist } = req.body
     const task = await createTasks(userid, date, tasklist, checklist)
+    res.status(201).send(task)
+})
+
+app.delete('/tasks', async (req, res) => {
+    const {date} = req.body
+    const task = await deleteTasks(date)
     res.status(201).send(task)
 })
 

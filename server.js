@@ -40,3 +40,12 @@ export async function createTasks(userid, date, tasklist, checklist) {
         checklist
     }
 }
+
+export async function deleteTasks(date) {
+    const [result] = await pool.query(`
+    delete from tasks where date=(?)
+    `, [date])
+    return {
+
+    }
+}

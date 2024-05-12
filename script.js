@@ -66,6 +66,52 @@ function nextBtn() {
 
 }
 let taskNum = 0;
+
+
+function dbQuery(dateInput, tasklistInput, checklistInput) {
+    const date = dateInput;
+    const tasklist = tasklistInput;
+    const checklist = checklistInput;
+
+
+    fetch('http://localhost:8000/tasks', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ userid, date, tasklist, checklist })
+    })
+    .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+    })
+    .then(data => {
+    console.log('Data sent successfully:', data);
+    })
+    .catch(error => {
+    console.error('There was a problem with your fetch operation:', error);
+    });
+}
+function dbTest(dateInput) {
+    fetch('http://localhost:8000/tasks', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        console.log('All tasks deleted successfully');
+    })
+    .catch(error => {
+        console.error('There was a problem with your fetch operation:', error);
+    });
+}
+
 function myFunction() {
     var today = new Date();
     var numOfDays = new Date(today.getFullYear(), today.getMonth() + selectedMonth, 0).getDate();
@@ -410,6 +456,8 @@ function removeTaskFunc() {
 }
 
 
+
+
 function addTaskFunc() {
 
     if (createTask.value != '') {
@@ -466,7 +514,10 @@ function addTaskFunc() {
                         taskList.splice(removeMeNum, 1);
                         checkList.splice(removeMeNum, 1);
 
-
+                        console.log('remove')
+                        let selectDate = document.querySelector('.selected');
+                        let dateInput = selectDate.id;
+                        dbTest(dateInput)
                         taskNum--;
                     })
 
@@ -718,32 +769,7 @@ next.addEventListener('click', function () {
 
 const userid = 'aij89juij89'
 
-function dbQuery(dateInput, tasklistInput, checklistInput) {
-    const date = dateInput;
-    const tasklist = tasklistInput;
-    const checklist = checklistInput;
 
-
-    fetch('http://localhost:8000/tasks', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ userid, date, tasklist, checklist })
-    })
-    .then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-    })
-    .then(data => {
-    console.log('Data sent successfully:', data);
-    })
-    .catch(error => {
-    console.error('There was a problem with your fetch operation:', error);
-    });
-}
 
 document.querySelectorAll('#addTask').forEach(addBtn => {
     // if date already exists, replace it
@@ -772,35 +798,6 @@ document.querySelectorAll('.checkbox').forEach(checkbox => {
 })
 
 
-function dbDelete(dateInput) {
-    const url = `http://localhost:8000/tasks?date=${dateInput}`;
-    
-    fetch(url, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Data deleted successfully:', data);
-    })
-    .catch(error => {
-        console.error('There was a problem with your fetch operation:', error);
-    });
-}
 
 
-document.querySelectorAll('.removeBtn').forEach(remove => {
-    remove.addEventListener('click', function() {
-        console.log('remove')
-        let selectDate = document.querySelector('.selected');
-        let dateInput = selectDate.id;
-        dbDelete(dateInput)
-    })
-});
+
