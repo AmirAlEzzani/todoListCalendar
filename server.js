@@ -24,28 +24,41 @@ export async function getTask(id) {
     `, [id])
     return rows
 }
-const tasks = await getTask(18)
-console.log(await getTask(18))
 
 
 export async function createTasks(userid, date, tasklist, checklist) {
+    try {
+        const [result1] = await pool.query(`
+        delete from tasks where userid=? AND date=?
+        `, [userid, date])
+        console.log(result1)
+    } catch (error) {
+        console.error('Error executing SQL queries:', error);
+        throw error;
+    }
+    const [result2] = await pool.query(`
+        INSERT INTO tasks (userid, date, tasklist, checklist)
+        VALUES (?, ?, ?, ?)
+        `, [userid, date, tasklist, checklist])
+        console.log(result2)
+}
+
+export async function deleteTasks(userid, date) {
     const [result] = await pool.query(`
-    INSERT INTO tasks (userid, date, tasklist, checklist)
-    VALUES (?, ?, ?, ?)
+    delete from tasks where userid=? AND date=?
+    `, [userid, date])
+    return {
+        result
+    }
+}
+
+export async function updateTasks(userid, date, tasklist, checklist) {
+    const [result] = await pool.query(`
+    update tasks set tasklist = _, set checklist = _
     `, [userid, date, tasklist, checklist])
     return {
-        userid,
-        date,
-        tasklist,
-        checklist
+    result
     }
 }
 
-export async function deleteTasks(date) {
-    const [result] = await pool.query(`
-    delete from tasks where date=(?)
-    `, [date])
-    return {
-
-    }
-}
+// if num of tasks is greater than 1, use updateTasks, if only one task, use deleteTasks

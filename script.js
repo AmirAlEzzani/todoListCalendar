@@ -1,4 +1,6 @@
 
+const uid = localStorage.getItem('uidKey')
+console.log(uid)
 
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
@@ -69,6 +71,7 @@ let taskNum = 0;
 
 
 function dbQuery(dateInput, tasklistInput, checklistInput) {
+    const userid = uid;
     const date = dateInput;
     const tasklist = tasklistInput;
     const checklist = checklistInput;
@@ -94,7 +97,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     console.error('There was a problem with your fetch operation:', error);
     });
 }
-function dbTest(dateInput) {
+function dbDelete(uid, dateInput) {
     fetch('http://localhost:8000/tasks', {
         method: 'DELETE',
         headers: {
@@ -765,9 +768,6 @@ next.addEventListener('click', function () {
         }
     }
 });
-
-
-const userid = 'aij89juij89'
 
 
 

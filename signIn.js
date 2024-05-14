@@ -20,10 +20,10 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+let uid = '';
 
 const submit = document.getElementById('login');
-submit.addEventListener('click', function (event) {
-    event.preventDefault();
+submit.addEventListener('click', async function () {
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -45,13 +45,11 @@ submit.addEventListener('click', function (event) {
           if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;  
-            console.log(uid);
-            alert('Logging In...');
+            let uid = user.uid;  
+            console.log('Logging In...');
+            localStorage.setItem('uidKey', uid)
             window.location.href = 'todoCalendar.html';
-            console.log(uid);
-            let uidField = document.getElementById('uid')
-            uidField.innerText = uid;
+            return uid;
             // ...
           } else {
             // User is signed out
@@ -59,7 +57,11 @@ submit.addEventListener('click', function (event) {
           }
         });
 });
-            
+
+
+
+
+
   
 const signUp = document.getElementById('signUp');
 signUp.addEventListener('click', function() {

@@ -30,6 +30,12 @@ app.delete('/tasks', async (req, res) => {
     res.status(201).send(task)
 })
 
+app.put('/tasks', async (req, res) => {
+    const { tasklist , checklist, userid, date } = req.body
+    const task = await updateTasks(tasklist, checklist, userid, date)
+    res.status(201).send(task)
+})
+
 app.use((err, req, res, next) => {
     console.error(err.stack)
     res.status(500).send('Something broke!')
