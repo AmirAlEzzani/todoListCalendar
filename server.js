@@ -28,19 +28,17 @@ export async function getTask(id) {
 
 export async function createTasks(userid, date, tasklist, checklist) {
     try {
-        const [result1] = await pool.query(`
+        await pool.query(`
         delete from tasks where userid=? AND date=?
         `, [userid, date])
-        console.log(result1)
     } catch (error) {
         console.error('Error executing SQL queries:', error);
         throw error;
     }
-    const [result2] = await pool.query(`
+    await pool.query(`
         INSERT INTO tasks (userid, date, tasklist, checklist)
         VALUES (?, ?, ?, ?)
         `, [userid, date, tasklist, checklist])
-        console.log(result2)
 }
 
 export async function deleteTasks(userid, date, tasklist, checklist) {

@@ -88,7 +88,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
-    return response.json();
+    return response;
     })
     .then(data => {
     console.log('Data sent successfully:', data);
@@ -357,7 +357,6 @@ function myFunction() {
                             })
                             document.querySelectorAll('.checkbox').forEach(check => {
                                 check.addEventListener('change', function () {
-                                    let checkMe = check.classList[2];
 
 
                                     document.querySelectorAll("." + checkMe).forEach(element => {
@@ -412,7 +411,6 @@ function myFunction() {
 
     document.querySelectorAll('.checkbox').forEach(checkbox => {
         checkbox.addEventListener('click', function () {
-            let selected = document.querySelector('.selected')
 
             checkStorage.push(checkList);
 
@@ -502,6 +500,8 @@ function addTaskFunc() {
         let removeId;
         let identifierId;
         let howManyTimes = 0;
+
+
         document.querySelectorAll('.task').forEach(i => {
             document.querySelectorAll('.removeBtn').forEach(item => {
                 item.addEventListener('click', function () {
@@ -606,10 +606,17 @@ function addTaskFunc() {
                 }
             })
         }
-
         document.querySelectorAll('.checkbox').forEach(item => {
             item.addEventListener('change', function () {
                 let checkMe = item.classList[2];
+
+                let selectDate = document.querySelector('.selected');
+                let dateInput = selectDate.id;
+                let tasklistInput = selectDate.getAttribute('tasklist');
+                let checklistInput = selectDate.getAttribute('checklist');
+            
+                console.log('test')
+                dbQuery(dateInput, tasklistInput, checklistInput)
 
                 document.querySelectorAll("." + checkMe).forEach(element => {
                     if (item.checked) {
@@ -629,7 +636,9 @@ function addTaskFunc() {
 
                         if (element.tagName !== 'BUTTON') {
                             element.classList.add; ('completed');
+                            
                         }
+
                     }
                     else {
                         element.classList.remove('completed');
@@ -655,6 +664,8 @@ function addTaskFunc() {
                 })
             });
         });
+
+
 
         document.querySelectorAll('.selected').forEach(selected => {
             let selId = selected.id;
@@ -696,6 +707,7 @@ function addTaskFunc() {
             day.classList.add('complete');
         }
     })
+
 }
 
 
@@ -715,7 +727,6 @@ document.querySelectorAll('.day').forEach(day => {
 
 
 prev.addEventListener('click', function () {
-
     console.log(idStorage)
     console.log(taskStorage)
     console.log(checkStorage)
@@ -791,20 +802,14 @@ document.querySelectorAll('#addTask').forEach(addBtn => {
         
         
             dbQuery(dateInput, tasklistInput, checklistInput)
+            
         })
 })
 
-document.querySelectorAll('.checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-        let selectDate = document.querySelector('.selected');
-        let dateInput = selectDate.id;
-        let tasklistInput = selectDate.getAttribute('tasklist');
-        let checklistInput = selectDate.getAttribute('checklist');
-        dbQuery(dateInput, tasklistInput, checklistInput)
-    })
-    //this updates before the date attribute does, so im gonna have to put this straight into each of the funcs directly
 
-})
+
+
+    //this updates before the date attribute does, so im gonna have to put this straight into each of the funcs directly
 
 
 
