@@ -13,7 +13,7 @@ const pool = mysql.createPool({
 
 export async function getTasks() {
     const [rows] = await pool.query('SELECT * FROM tasks')
-    return rows
+    console.log(rows)
 }
 
 export async function getTask(id) {
@@ -22,7 +22,7 @@ export async function getTask(id) {
     FROM tasks
     WHERE id = ?
     `, [id])
-    return rows
+    console.log(rows)
 }
 
 
@@ -43,22 +43,23 @@ export async function createTasks(userid, date, tasklist, checklist) {
         console.log(result2)
 }
 
-export async function deleteTasks(userid, date) {
+export async function deleteTasks(userid, date, tasklist, checklist) {
     const [result] = await pool.query(`
     delete from tasks where userid=? AND date=?
     `, [userid, date])
-    return {
-        result
-    }
+    const [result2] = await pool.query(`
+    INSERT INTO tasks (userid, date, tasklist, checklist)
+    VALUES (?, ?, ?, ?)
+    `, [userid, date, tasklist, checklist])
+    console.log(result)
+    console.log(result2)
 }
 
 export async function updateTasks(userid, date, tasklist, checklist) {
     const [result] = await pool.query(`
     update tasks set tasklist = _, set checklist = _
     `, [userid, date, tasklist, checklist])
-    return {
-    result
-    }
+    console.log(result)
 }
 
 // if num of tasks is greater than 1, use updateTasks, if only one task, use deleteTasks

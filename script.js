@@ -97,12 +97,17 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     console.error('There was a problem with your fetch operation:', error);
     });
 }
-function dbDelete(uid, dateInput) {
+function dbDelete(dateInput, tasklistInput, checklistInput) {
+    const userid = uid;
+    const date = dateInput;
+    const tasklist = tasklistInput;
+    const checklist = checklistInput;
     fetch('http://localhost:8000/tasks', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
-        }
+        }, 
+        body: JSON.stringify({ userid, date, tasklist, checklist })
     })
     .then(response => {
         if (!response.ok) {
@@ -518,15 +523,19 @@ function addTaskFunc() {
                         checkList.splice(removeMeNum, 1);
 
                         console.log('remove')
-                        let selectDate = document.querySelector('.selected');
-                        let dateInput = selectDate.id;
-                        dbTest(dateInput)
+
                         taskNum--;
                     })
 
                     wakeUp();
                     wakeUp();
-
+                    let selectDate = document.querySelector('.selected');
+                    let dateInput = selectDate.id;
+                    let tasklistInput = selectDate.getAttribute('tasklist');
+                    let checklistInput = selectDate.getAttribute('checklist');
+                
+                
+                    dbDelete(dateInput, tasklistInput, checklistInput)
                 })
 
 

@@ -25,14 +25,8 @@ app.post('/tasks', async (req, res) => {
 })
 
 app.delete('/tasks', async (req, res) => {
-    const {date} = req.body
-    const task = await deleteTasks(date)
-    res.status(201).send(task)
-})
-
-app.put('/tasks', async (req, res) => {
-    const { tasklist , checklist, userid, date } = req.body
-    const task = await updateTasks(tasklist, checklist, userid, date)
+    const { userid, date, tasklist, checklist } = req.body
+    const task = await deleteTasks(userid, date, tasklist, checklist)
     res.status(201).send(task)
 })
 
