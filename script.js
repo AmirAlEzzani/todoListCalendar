@@ -806,8 +806,35 @@ document.querySelectorAll('#addTask').forEach(addBtn => {
         })
 })
 
+let selectfordb = document.querySelector('.selected')
+let selectDbDate = selectfordb.id;
+let splitSelectDb = selectDbDate.split('-');
+let extractedId = splitSelectDb[0]+'-'+splitSelectDb[1]+'-'+splitSelectDb[2];
+console.log(extractedId)
+localStorage.setItem('currentMonth', extractedId)
 
+function dbImport() {
+    fetch('http://localhost:8000/tasks', {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    })
+    .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response;
+    })
+    .then(data => {
+    console.log('Data sent successfully:', data);
+    })
+    .catch(error => {
+    console.error('There was a problem with your fetch operation:', error);
+    });
+}
 
+dbImport()
 
     //this updates before the date attribute does, so im gonna have to put this straight into each of the funcs directly
 

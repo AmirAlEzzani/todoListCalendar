@@ -60,4 +60,15 @@ export async function updateTasks(userid, date, tasklist, checklist) {
     console.log(result)
 }
 
+export async function importTasks(userid, yearAndMonth) {
+    const [result] = await pool.query(`
+    SELECT *
+    FROM tasks
+    WHERE userid=? AND date LIKE ?
+    `, [userid, `${yearAndMonth}%`])
+    return result;
+}
+//import on load, prev, and next
+//use split at '-' to make array and get index 0 and 1 to get year and month
+
 // if num of tasks is greater than 1, use updateTasks, if only one task, use deleteTasks
