@@ -66,7 +66,7 @@ export async function importTasks(userid, yearAndMonth) {
     FROM tasks
     WHERE userid=? AND date LIKE ?
     `, [userid, `${yearAndMonth}%`])
-    return result;
+    console.log(result)
 }
 //import on load, prev, and next
 //use split at '-' to make array and get index 0 and 1 to get year and month

@@ -71,11 +71,10 @@ let taskNum = 0;
 
 
 function dbQuery(dateInput, tasklistInput, checklistInput) {
-    const userid = uid;
-    const date = dateInput;
-    const tasklist = tasklistInput;
-    const checklist = checklistInput;
-
+    const userid = uid
+    const date = dateInput
+    const tasklist = tasklistInput
+    const checklist = checklistInput
 
     fetch('http://localhost:8000/tasks', {
     method: 'POST',
@@ -97,6 +96,9 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     console.error('There was a problem with your fetch operation:', error);
     });
 }
+
+
+
 function dbDelete(dateInput, tasklistInput, checklistInput) {
     const userid = uid;
     const date = dateInput;
@@ -119,6 +121,10 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
+
+
+
+
 
 function myFunction() {
     var today = new Date();
@@ -806,12 +812,7 @@ document.querySelectorAll('#addTask').forEach(addBtn => {
         })
 })
 
-let selectfordb = document.querySelector('.selected')
-let selectDbDate = selectfordb.id;
-let splitSelectDb = selectDbDate.split('-');
-let extractedId = splitSelectDb[0]+'-'+splitSelectDb[1]+'-'+splitSelectDb[2];
-console.log(extractedId)
-localStorage.setItem('currentMonth', extractedId)
+
 
 function dbImport() {
     fetch('http://localhost:8000/tasks', {
@@ -834,7 +835,11 @@ function dbImport() {
     });
 }
 
-dbImport()
+
+
+
+
+
 
     //this updates before the date attribute does, so im gonna have to put this straight into each of the funcs directly
 

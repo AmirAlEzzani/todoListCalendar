@@ -2,8 +2,6 @@ import express from 'express'
 import { getTasks, getTask, createTasks, deleteTasks, updateTasks, importTasks } from './server.js'
 import cors from 'cors'
 
-const currentMonth = localStorage.getItem('currentMonth')
-
 
 const app = express()
 app.use(express.json())
@@ -23,13 +21,11 @@ app.get('/tasks/:id', async (req, res) => {
 app.post('/tasks', async (req, res) => {
     const { userid, date, tasklist, checklist } = req.body
     const task = await createTasks(userid, date, tasklist, checklist)
+    let currentMonth = req.body.date
+    let currentMonthSplit = currentMonth.split('-')
+    let currMonth = currentMonthSplit[0]+'-'+currentMonthSplit[1]+'-'+currentMonthSplit[2];
+    importTasks(userid, currMonth)
     res.status(201).send(task)
-})
-//NEED TO GET ARGUMENTS USERID AND EXTRACTEDID AND MAKE QUERY TO GET MATCHING DATA
-app.get('/tasks', async (req, res) => {
-    const { userid, yearAndMonth } = req.body
-    const tasks = await importTasks(userid, yearAndMonth)
-    res.send(tasks)
 })
 
 app.delete('/tasks', async (req, res) => {
