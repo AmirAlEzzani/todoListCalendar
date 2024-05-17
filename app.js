@@ -1,5 +1,5 @@
 import express from 'express'
-import { getTasks, getTask, createTasks, deleteTasks, updateTasks, importTasks } from './server.js'
+import { createTasks, deleteTasks, importTasks } from './server.js'
 import cors from 'cors'
 
 
@@ -7,25 +7,25 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-app.get('/tasks', async (req, res) => {
-    const tasks = await getTasks()
-    res.send(tasks)
-})
-
-app.get('/tasks/:id', async (req, res) => {
-    const id = req.params.id
-    const task = await getTask(id)
-    res.send(task)
-})
 
 app.post('/tasks', async (req, res) => {
     const { userid, date, tasklist, checklist } = req.body
+    if (req.body.tasklist != null) {
     const task = await createTasks(userid, date, tasklist, checklist)
-    let currentMonth = req.body.date
-    let currentMonthSplit = currentMonth.split('-')
-    let currMonth = currentMonthSplit[0]+'-'+currentMonthSplit[1]+'-'+currentMonthSplit[2];
-    importTasks(userid, currMonth)
-    res.status(201).send(task)
+    res.status(201).send(task) 
+    }
+    if (req.body.tasklist == null) {
+        let currentMonth = req.body.date
+        let userid = req.body.userid
+        let currentMonthSplit = currentMonth.split('-')
+        let currMonth = currentMonthSplit[0]+'-'+currentMonthSplit[1]+'-'+currentMonthSplit[2];
+        console.log(req.body.userid)
+        console.log(currMonth)
+        const tasks = await importTasks(userid, currMonth)
+        
+        res.status(201).send(tasks)
+    }  
+    
 })
 
 app.delete('/tasks', async (req, res) => {
@@ -42,5 +42,3 @@ app.use((err, req, res, next) => {
 app.listen(8000, () => {
     console.log('server is running on port 8000')
 })
-const notes = await getTask(1)
-console.log(notes)

@@ -71,10 +71,10 @@ let taskNum = 0;
 
 
 function dbQuery(dateInput, tasklistInput, checklistInput) {
-    const userid = uid
-    const date = dateInput
-    const tasklist = tasklistInput
-    const checklist = checklistInput
+    let userid = uid
+    let date = dateInput
+    let tasklist = tasklistInput
+    let checklist = checklistInput
 
     fetch('http://localhost:8000/tasks', {
     method: 'POST',
@@ -229,6 +229,22 @@ function myFunction() {
             addTask.addEventListener('click', addTaskFunc);
 
 
+            document.querySelectorAll('#addTask').forEach(addBtn => {
+                // if date already exists, replace it
+                    addBtn.addEventListener('click', function() {
+                        
+                        let selectDate = document.querySelector('.selected');
+                        let dateInput = selectDate.id;
+                        let tasklistInput = selectDate.getAttribute('tasklist');
+                        let checklistInput = selectDate.getAttribute('checklist');
+                    
+                        console.log('test2')
+                        dbQuery(dateInput, tasklistInput, checklistInput)
+                        
+                    })
+            })
+
+
             document.querySelectorAll('.day').forEach(item => {
 
                 item.classList.remove('selected');
@@ -258,7 +274,9 @@ function myFunction() {
             }
 
             function displayTasks() {
-
+                if (!item.hasAttribute('tasklist')) {
+                    return;
+                }
                 let separateTasks = item.getAttribute('tasklist').split(',');
                 let separateChecks = item.getAttribute('checklist').split(',');
                 for (f = 0; f < separateTasks.length; f++) {
@@ -366,6 +384,7 @@ function myFunction() {
 
 
                                     document.querySelectorAll("." + checkMe).forEach(element => {
+                                        
                                         if (check.checked) {
 
                                             let checkMeSplit = checkMe.split("-");
@@ -402,6 +421,7 @@ function myFunction() {
                                             day.classList.add('complete');
                                         }
                                     })
+
                                 });
                             });
 
@@ -435,6 +455,7 @@ function myFunction() {
 
 
         })
+        
     })
 }
 
@@ -597,12 +618,6 @@ function addTaskFunc() {
 
 
 
-                let selectedDate = document.querySelector('.selected');
-                selectedDate.setAttribute('tasklist', taskList);
-                selectedDate.setAttribute('checklist', checkList);
-                document.querySelectorAll('.selected').forEach(selected => {
-                    /*             taskStorage.push(selected.getAttribute('tasklist')) */
-})
 
 
 
@@ -616,13 +631,7 @@ function addTaskFunc() {
             item.addEventListener('change', function () {
                 let checkMe = item.classList[2];
 
-                let selectDate = document.querySelector('.selected');
-                let dateInput = selectDate.id;
-                let tasklistInput = selectDate.getAttribute('tasklist');
-                let checklistInput = selectDate.getAttribute('checklist');
-            
-                console.log('test')
-                dbQuery(dateInput, tasklistInput, checklistInput)
+
 
                 document.querySelectorAll("." + checkMe).forEach(element => {
                     if (item.checked) {
@@ -635,6 +644,9 @@ function addTaskFunc() {
                             let selectIndex = idStorage.indexOf(selectId);
                             checkStorage.splice(selectIndex, 1, checkList.toString())
                             console.log(checkStorage)
+
+
+
                         })
 
                         checkList[checkMeNum] = true;
@@ -657,6 +669,9 @@ function addTaskFunc() {
 
                 });
                 document.querySelectorAll('.day').forEach(day => {
+                    if (!day.hasAttribute('tasklist')) {
+                        return;
+                    }
                     let dayAttribute = day.getAttribute('checklist');
                     let attributeSplit = dayAttribute.split(',');
                     if (attributeSplit.includes('false')) {
@@ -668,6 +683,14 @@ function addTaskFunc() {
                         day.classList.add('complete');
                     }
                 })
+                let selectDate = document.querySelector('.selected');
+                let dateInput = selectDate.id;
+                let tasklistInput = selectDate.getAttribute('tasklist');
+                let checklistInput = selectDate.getAttribute('checklist');
+            
+                console.log(selectDate.getAttribute('checklist'));
+                console.log('look')
+                dbQuery(dateInput, tasklistInput, checklistInput)
             });
         });
 
@@ -702,6 +725,9 @@ function addTaskFunc() {
     })
 
     document.querySelectorAll('.day').forEach(day => {
+        if (!day.hasAttribute('checklist')) {
+            return;
+        }
         let dayAttribute = day.getAttribute('checklist');
         let attributeSplit = dayAttribute.split(',');
         if (attributeSplit.includes('false')) {
@@ -713,6 +739,14 @@ function addTaskFunc() {
             day.classList.add('complete');
         }
     })
+
+    let selectDate = document.querySelector('.selected');
+    let dateInput = selectDate.id;
+    let tasklistInput = selectDate.getAttribute('tasklist');
+    let checklistInput = selectDate.getAttribute('checklist');
+
+    console.log('test2')
+    dbQuery(dateInput, tasklistInput, checklistInput)
 
 }
 
@@ -797,20 +831,6 @@ next.addEventListener('click', function () {
 
 
 
-document.querySelectorAll('#addTask').forEach(addBtn => {
-    // if date already exists, replace it
-        addBtn.addEventListener('click', function() {
-            
-            let selectDate = document.querySelector('.selected');
-            let dateInput = selectDate.id;
-            let tasklistInput = selectDate.getAttribute('tasklist');
-            let checklistInput = selectDate.getAttribute('checklist');
-        
-        
-            dbQuery(dateInput, tasklistInput, checklistInput)
-            
-        })
-})
 
 
 
@@ -835,7 +855,13 @@ function dbImport() {
     });
 }
 
+let selectDate = document.querySelector('.selected');
+let dateInput = selectDate.id;
+let tasklistInput = selectDate.getAttribute('tasklist');
+let checklistInput = selectDate.getAttribute('checklist');
 
+
+dbQuery(dateInput, tasklistInput, checklistInput)
 
 
 

@@ -11,26 +11,13 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 }).promise()
 
-export async function getTasks() {
-    const [rows] = await pool.query('SELECT * FROM tasks')
-    console.log(rows)
-}
-
-export async function getTask(id) {
-    const [rows] = await pool.query(`
-    SELECT *
-    FROM tasks
-    WHERE id = ?
-    `, [id])
-    console.log(rows)
-}
-
 
 export async function createTasks(userid, date, tasklist, checklist) {
     try {
-        await pool.query(`
+        let check = await pool.query(`
         delete from tasks where userid=? AND date=?
         `, [userid, date])
+        console.log(check)
     } catch (error) {
         console.error('Error executing SQL queries:', error);
         throw error;
@@ -53,19 +40,11 @@ export async function deleteTasks(userid, date, tasklist, checklist) {
     console.log(result2)
 }
 
-export async function updateTasks(userid, date, tasklist, checklist) {
-    const [result] = await pool.query(`
-    update tasks set tasklist = _, set checklist = _
-    `, [userid, date, tasklist, checklist])
-    console.log(result)
-}
-
 export async function importTasks(userid, yearAndMonth) {
     const [result] = await pool.query(`
     SELECT *
     FROM tasks
-    WHERE userid=? AND date LIKE ?
-    `, [userid, `${yearAndMonth}%`])
+    WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth])
     console.log(result)
 }
 //import on load, prev, and next
