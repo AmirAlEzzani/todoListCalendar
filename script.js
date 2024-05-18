@@ -100,10 +100,10 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
 
 
 function dbDelete(dateInput, tasklistInput, checklistInput) {
-    const userid = uid;
-    const date = dateInput;
-    const tasklist = tasklistInput;
-    const checklist = checklistInput;
+    let userid = uid;
+    let date = dateInput;
+    let tasklist = tasklistInput;
+    let checklist = checklistInput;
     fetch('http://localhost:8000/tasks', {
         method: 'DELETE',
         headers: {
@@ -121,7 +121,6 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
         console.error('There was a problem with your fetch operation:', error);
     });
 }
-
 
 
 
@@ -532,7 +531,6 @@ function addTaskFunc() {
         document.querySelectorAll('.task').forEach(i => {
             document.querySelectorAll('.removeBtn').forEach(item => {
                 item.addEventListener('click', function () {
-
                     item.classList.add('yo');
 
                     document.querySelectorAll('.yo').forEach(getIndex => {
@@ -552,17 +550,20 @@ function addTaskFunc() {
                         console.log('remove')
 
                         taskNum--;
+
+                        let selectDate = document.querySelector('.selected');
+                        let dateInput = selectDate.id;
+                        let tasklistInput = selectDate.getAttribute('tasklist');
+                        let checklistInput = selectDate.getAttribute('checklist');
+                    
+                        console.log('testttt')
+                        console.log(tasklistInput)
+                        dbDelete(dateInput, tasklistInput, checklistInput)
                     })
 
                     wakeUp();
                     wakeUp();
-                    let selectDate = document.querySelector('.selected');
-                    let dateInput = selectDate.id;
-                    let tasklistInput = selectDate.getAttribute('tasklist');
-                    let checklistInput = selectDate.getAttribute('checklist');
-                
-                
-                    dbDelete(dateInput, tasklistInput, checklistInput)
+
                 })
 
 
@@ -628,70 +629,68 @@ function addTaskFunc() {
             })
         }
         document.querySelectorAll('.checkbox').forEach(item => {
-            item.addEventListener('change', function () {
-                let checkMe = item.classList[2];
-
-
-
-                document.querySelectorAll("." + checkMe).forEach(element => {
-                    if (item.checked) {
-
-                        let checkMeSplit = checkMe.split("-");
-                        let checkMeNum = checkMeSplit[1];
-                        document.querySelectorAll('.selected').forEach(selected => {
-                            console.log((selected.getAttribute('checklist')))
-                            let selectId = selected.id;
-                            let selectIndex = idStorage.indexOf(selectId);
-                            checkStorage.splice(selectIndex, 1, checkList.toString())
-                            console.log(checkStorage)
-
-
-
-                        })
-
-                        checkList[checkMeNum] = true;
-                        selectedDate.setAttribute('checklist', checkList);
-
-                        if (element.tagName !== 'BUTTON') {
-                            element.classList.add; ('completed');
-                            
+            // Use a flag to check if the listener is already added
+            if (!item.dataset.listenerAdded) {
+                item.addEventListener('change', function () {
+                    let checkMe = item.classList[2];
+        
+                    document.querySelectorAll("." + checkMe).forEach(element => {
+                        if (item.checked) {
+                            let checkMeSplit = checkMe.split("-");
+                            let checkMeNum = checkMeSplit[1];
+                            document.querySelectorAll('.selected').forEach(selected => {
+                                let selectId = selected.id;
+                                let selectIndex = idStorage.indexOf(selectId);
+                                checkStorage.splice(selectIndex, 1, checkList.toString());
+        
+                                // Log the updated checkStorage
+                                console.log(checkStorage);
+                            });
+        
+                            checkList[checkMeNum] = true;
+                            selectedDate.setAttribute('checklist', checkList);
+        
+                            if (element.tagName !== 'BUTTON') {
+                                element.classList.add('completed');
+                            }
+                        } else {
+                            element.classList.remove('completed');
+                            let checkMeSplit = checkMe.split("-");
+                            let checkMeNum = checkMeSplit[1];
+        
+                            checkList[checkMeNum] = false;
+                            selectedDate.setAttribute('checklist', checkList);
                         }
-
-                    }
-                    else {
-                        element.classList.remove('completed');
-                        let checkMeSplit = checkMe.split("-");
-                        let checkMeNum = checkMeSplit[1];
-
-                        checkList[checkMeNum] = false;
-                        selectedDate.setAttribute('checklist', checkList);
-                    }
-
+                    });
+        
+                    document.querySelectorAll('.day').forEach(day => {
+                        if (!day.hasAttribute('tasklist')) {
+                            return;
+                        }
+                        let dayAttribute = day.getAttribute('checklist');
+                        let attributeSplit = dayAttribute.split(',');
+                        if (attributeSplit.includes('false')) {
+                            day.classList.remove('complete');
+                            day.classList.add('incomplete');
+                        } else if (!attributeSplit.includes('false') && attributeSplit.includes('true')) {
+                            day.classList.remove('incomplete');
+                            day.classList.add('complete');
+                        }
+                    });
+        
+                    let selectDate = document.querySelector('.selected');
+                    let dateInput = selectDate.id;
+                    let tasklistInput = selectDate.getAttribute('tasklist');
+                    let checklistInput = selectDate.getAttribute('checklist');
+        
+                    console.log(selectDate.getAttribute('checklist'));
+                    console.log('look');
+                    dbQuery(dateInput, tasklistInput, checklistInput);
                 });
-                document.querySelectorAll('.day').forEach(day => {
-                    if (!day.hasAttribute('tasklist')) {
-                        return;
-                    }
-                    let dayAttribute = day.getAttribute('checklist');
-                    let attributeSplit = dayAttribute.split(',');
-                    if (attributeSplit.includes('false')) {
-                        day.classList.remove('complete');
-                        day.classList.add('incomplete');
-                    }
-                    else if (!attributeSplit.includes('false') && attributeSplit.includes('true')) {
-                        day.classList.remove('incomplete')
-                        day.classList.add('complete');
-                    }
-                })
-                let selectDate = document.querySelector('.selected');
-                let dateInput = selectDate.id;
-                let tasklistInput = selectDate.getAttribute('tasklist');
-                let checklistInput = selectDate.getAttribute('checklist');
-            
-                console.log(selectDate.getAttribute('checklist'));
-                console.log('look')
-                dbQuery(dateInput, tasklistInput, checklistInput)
-            });
+        
+                // Mark the listener as added
+                item.dataset.listenerAdded = true;
+            }
         });
 
 

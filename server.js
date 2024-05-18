@@ -28,16 +28,29 @@ export async function createTasks(userid, date, tasklist, checklist) {
         `, [userid, date, tasklist, checklist])
 }
 
+
+///////////////////
+
 export async function deleteTasks(userid, date, tasklist, checklist) {
-    const [result] = await pool.query(`
-    delete from tasks where userid=? AND date=?
-    `, [userid, date])
-    const [result2] = await pool.query(`
-    INSERT INTO tasks (userid, date, tasklist, checklist)
-    VALUES (?, ?, ?, ?)
-    `, [userid, date, tasklist, checklist])
-    console.log(result)
-    console.log(result2)
+    if (tasklist.includes(',')) {
+        console.log(tasklist)
+        console.log('multiple')
+        await pool.query(`
+        delete from tasks where userid=? AND date=?
+        `, [userid, date])
+    await pool.query(`
+        INSERT INTO tasks (userid, date, tasklist, checklist)
+        VALUES (?, ?, ?, ?)
+        `, [userid, date, tasklist, checklist])
+
+    }
+    else {
+        console.log(tasklist)
+        console.log('singular')
+        await pool.query(`
+        delete from tasks where userid=? AND date=?
+        `, [userid, date])
+    }
 }
 
 export async function importTasks(userid, yearAndMonth) {
@@ -45,6 +58,7 @@ export async function importTasks(userid, yearAndMonth) {
     SELECT *
     FROM tasks
     WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth])
+    console.log('imported tasks:')
     console.log(result)
 }
 //import on load, prev, and next
