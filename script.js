@@ -548,17 +548,29 @@ function addTaskFunc() {
                         checkList.splice(removeMeNum, 1);
 
                         console.log('remove')
+                        let selected = document.querySelector('.selected')
+                        console.log(selected.getAttribute('tasklist'))
 
                         taskNum--;
+                        
 
-                        let selectDate = document.querySelector('.selected');
+
+                        selected.setAttribute('tasklist', taskList)
+                        selected.setAttribute('checklist', checkList)
+                                            let selectDate = document.querySelector('.selected');
                         let dateInput = selectDate.id;
                         let tasklistInput = selectDate.getAttribute('tasklist');
                         let checklistInput = selectDate.getAttribute('checklist');
-                    
-                        console.log('testttt')
                         console.log(tasklistInput)
-                        dbDelete(dateInput, tasklistInput, checklistInput)
+                        if (tasklistInput!='') {
+                            console.log('updated')
+                            dbQuery(dateInput, tasklistInput, checklistInput)
+                        }
+                        if (tasklistInput == '') {
+                            console.log('deleted')
+                            dbDelete(dateInput, tasklistInput, checklistInput)
+                        }
+                        
                     })
 
                     wakeUp();
@@ -827,18 +839,48 @@ next.addEventListener('click', function () {
         }
     }
 });
+function dbQuery(dateInput, tasklistInput, checklistInput) {
+    let userid = uid
+    let date = dateInput
+    let tasklist = tasklistInput
+    let checklist = checklistInput
+
+    fetch('http://localhost:8000/tasks', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ userid, date, tasklist, checklist })
+    })
+    .then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response;
+    })
+    .then(data => {
+    console.log('Data sent successfully:', data);
+    })
+    .catch(error => {
+    console.error('There was a problem with your fetch operation:', error);
+    });
+}
 
 
 
 
 
+function dbImport(yearAndMonth) {
+    let userid = uid
+    let date = yearAndMonth
 
-function dbImport() {
+
     fetch('http://localhost:8000/tasks', {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json'
     },
+    body: JSON.stringify({ userid, date })
     })
     .then(response => {
     if (!response.ok) {
@@ -860,15 +902,10 @@ let tasklistInput = selectDate.getAttribute('tasklist');
 let checklistInput = selectDate.getAttribute('checklist');
 
 
-dbQuery(dateInput, tasklistInput, checklistInput)
+dbImport()
 
 
 
 
 
     //this updates before the date attribute does, so im gonna have to put this straight into each of the funcs directly
-
-
-
-
-

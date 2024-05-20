@@ -1,0 +1,70 @@
+document.querySelectorAll('.task').forEach(i => {
+    document.querySelectorAll('.removeBtn').forEach(item => {
+        item.addEventListener('click', function () {
+            item.classList.add('yo');
+            let matching = item.classList[item.classList.length - 2];
+
+            document.querySelectorAll('.yo').forEach(split => {
+
+                let matchSplit = matching.split('-');
+                let matchNum = matchSplit[1];
+                separateTasks.splice(matchNum, 1);
+                separateChecks.splice(matchNum, 1);
+
+                document.querySelectorAll('.selected').forEach(update => {
+                    update.setAttribute('tasklist', separateTasks);
+                    update.setAttribute('checklist', separateChecks);
+                })
+            })
+
+            document.querySelectorAll('.task').forEach(i => {
+                let updateRemove = document.querySelector('.yo')
+                let removedTaskClass = updateRemove.classList[updateRemove.classList.length - 2];
+
+                let removedTaskSplit = removedTaskClass.split('-');
+                let removedTaskNum = removedTaskSplit[1];
+
+                let checkForLaterTasks = i.classList[i.classList.length - 1];
+                let checkForLaterTasksSplit = checkForLaterTasks.split('-');
+                let checkIfLaterTaskIsLarger = checkForLaterTasksSplit[1];
+
+                if (checkIfLaterTaskIsLarger > removedTaskNum) {
+
+                    i.classList.add('larger');
+                }
+            })
+
+            document.querySelectorAll('.yo').forEach(match => {
+                let deleteMeId = match.classList[match.classList.length - 2];
+                let deleteMeSplit = deleteMeId.split('-');
+                let deleteMeNum = deleteMeSplit[1];
+                document.querySelectorAll('.task').forEach(matchingId => {
+
+                    if (matchingId.classList.contains('task-' + deleteMeNum)) {
+                        matchingId.classList.add('removeMe');
+                    }
+                })
+                document.querySelectorAll('.removeMe').forEach(deleteMe => {
+                    tasks.removeChild(deleteMe);
+                });
+
+                document.querySelectorAll('.larger').forEach(iShouldBeDecreased => {
+                    iShouldBeDecreased.classList.remove('larger');
+                    let decreaseMe = iShouldBeDecreased.classList[iShouldBeDecreased.classList.length - 1];
+                    let decreaseMeSplit = decreaseMe.split('-');
+                    let decreaseMeNum = decreaseMeSplit[1];
+                    iShouldBeDecreased.classList.remove(decreaseMe);
+                    decreaseMeNum--;
+                    iShouldBeDecreased.classList.add('task-' + decreaseMeNum);
+
+                })
+
+            })
+
+            taskNum--;
+
+
+
+        })
+    })
+})
