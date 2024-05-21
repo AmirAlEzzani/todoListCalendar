@@ -228,20 +228,7 @@ function myFunction() {
             addTask.addEventListener('click', addTaskFunc);
 
 
-            document.querySelectorAll('#addTask').forEach(addBtn => {
-                // if date already exists, replace it
-                    addBtn.addEventListener('click', function() {
-                        
-                        let selectDate = document.querySelector('.selected');
-                        let dateInput = selectDate.id;
-                        let tasklistInput = selectDate.getAttribute('tasklist');
-                        let checklistInput = selectDate.getAttribute('checklist');
-                    
-                        console.log('test2')
-                        dbQuery(dateInput, tasklistInput, checklistInput)
-                        
-                    })
-            })
+
 
 
             document.querySelectorAll('.day').forEach(item => {
@@ -756,7 +743,7 @@ function addTaskFunc() {
     let tasklistInput = selectDate.getAttribute('tasklist');
     let checklistInput = selectDate.getAttribute('checklist');
 
-    console.log('test2')
+    console.log('test3')
     dbQuery(dateInput, tasklistInput, checklistInput)
 
 }
@@ -839,72 +826,60 @@ next.addEventListener('click', function () {
         }
     }
 });
-function dbQuery(dateInput, tasklistInput, checklistInput) {
-    let userid = uid
-    let date = dateInput
-    let tasklist = tasklistInput
-    let checklist = checklistInput
 
-    fetch('http://localhost:8000/tasks', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ userid, date, tasklist, checklist })
-    })
-    .then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+
+async function dbImport() {
+    try {
+        const response = await fetch('http://localhost:8000/tasks', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        console.log('Data fetched successfully:', data);
+        return data; // Return the fetched data
+    } catch (error) {
+        console.error('There was a problem with your fetch operation:', error);
+        return null; // Return null or rethrow the error
     }
-    return response;
-    })
-    .then(data => {
-    console.log('Data sent successfully:', data);
-    })
-    .catch(error => {
-    console.error('There was a problem with your fetch operation:', error);
-    });
 }
 
+document.addEventListener('DOMContentLoaded', async function() {
+    let selectDate = document.querySelector('.selected');
+    let dateInput = selectDate.id;
+    let tasklistInput = selectDate.getAttribute('tasklist');
+    let checklistInput = selectDate.getAttribute('checklist');
 
+    dbQuery(dateInput, tasklistInput, checklistInput);
+    console.log('dbimport');
+    dbImport();
+    const taskStoreData = await dbImport();
+    let taskStore = taskStoreData[0]
+    console.log('Fetched task store data:', taskStore);
 
-
-
-function dbImport(yearAndMonth) {
-    let userid = uid
-    let date = yearAndMonth
-
-
-    fetch('http://localhost:8000/tasks', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ userid, date })
+    document.querySelectorAll('.day').forEach(item => {
+        for (i = 0; i<taskStore.length; i++) {
+            let storedTask = taskStore[i]
+            if (storedTask.date != null) {
+                if (storedTask.date == item.id) {
+                    console.log(item.id)
+                    item.setAttribute('tasklist', storedTask.tasklist)
+                    item.setAttribute('checklist', storedTask.checklist)
+                }
+        }
+        }
     })
-    .then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response;
-    })
-    .then(data => {
-    console.log('Data sent successfully:', data);
-    })
-    .catch(error => {
-    console.error('There was a problem with your fetch operation:', error);
-    });
-}
-
-let selectDate = document.querySelector('.selected');
-let dateInput = selectDate.id;
-let tasklistInput = selectDate.getAttribute('tasklist');
-let checklistInput = selectDate.getAttribute('checklist');
+});
 
 
-dbImport()
 
-
+//for each date in calendar, get the id, go through taskStore, if selected.id == taskStore.value(date) { set the attribute of selected date to the tasklist of that taskStore Id, same with checklist }
 
 
 

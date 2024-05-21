@@ -188,8 +188,8 @@ body {
 
 .selected {
     color: #f5f5f5;
-    text-decoration: underline;
-    text-decoration-color: red;
+    background-color: red;
+    border-radius: 20px;
 }
 
 #createTask:focus {
