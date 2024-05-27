@@ -2,6 +2,8 @@
 const uid = localStorage.getItem('uidKey')
 console.log(uid)
 
+
+
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
 const monthName = document.getElementById('monthName');
