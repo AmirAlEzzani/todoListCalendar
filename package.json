@@ -1,5 +1,5 @@
 {
-  "name": "todocalendar2",
+  "name": "todocalendar2backend",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -7,8 +7,6 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0"
-  },
-  "devDependencies": {},
-  "main": "src/functions/*.js"
+    "azurite": "^3.30.0"
+  }
 }

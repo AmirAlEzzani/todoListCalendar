@@ -1,0 +1,8 @@
+{
+  "type": "sql",
+  "direction": "out",
+  "name": "todoItems",
+  "commandText": "INSERT INTO dbo.ToDo (Id, [order], [title], [url], [completed]) VALUES (@Id, @order, @title, @url, @completed)",
+  "commandType": "Text",
+  "connectionStringSetting": "SqlConnectionString"
+}
