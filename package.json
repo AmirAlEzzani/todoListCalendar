@@ -4,8 +4,8 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "dev": "npx nodemon app.js",
-    "start": "node app.js"
+    "dev": "npx nodemon ./server/app.js",
+    "start": "node ./server/app.js"
   },
   "keywords": [],
   "author": "",
