@@ -2,8 +2,6 @@
 const uid = localStorage.getItem('uidKey')
 console.log(uid)
 
-
-
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
 const monthName = document.getElementById('monthName');
@@ -78,7 +76,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     let tasklist = tasklistInput
     let checklist = checklistInput
 
-/*     fetch('http://localhost:8000/tasks', {
+    fetch('http://localhost:8000/tasks', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -96,7 +94,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     })
     .catch(error => {
     console.error('There was a problem with your fetch operation:', error);
-    }); */
+    });
 }
 
 
@@ -106,7 +104,7 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
     let date = dateInput;
     let tasklist = tasklistInput;
     let checklist = checklistInput;
-    /* fetch('http://localhost:8000/tasks', {
+    fetch('http://localhost:8000/tasks', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -121,7 +119,7 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
     })
     .catch(error => {
         console.error('There was a problem with your fetch operation:', error);
-    }); */
+    });
 }
 
 
@@ -831,8 +829,8 @@ next.addEventListener('click', function () {
 
 
 async function dbImport() {
-    /*try {
-         const response = await fetch('http://localhost:8000/tasks', {
+    try {
+        const response = await fetch('http://localhost:8000/tasks', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -849,7 +847,7 @@ async function dbImport() {
     } catch (error) {
         console.error('There was a problem with your fetch operation:', error);
         return null; // Return null or rethrow the error
-    } */
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async function() {
