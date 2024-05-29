@@ -2,7 +2,7 @@
   "name": "todocalendar2",
   "version": "1.0.0",
   "type": "module",
-  "main": "script.js",
+  "main": "server.js",
   "scripts": {
     "dev": "npx nodemon app.js",
     "start": "node app.js"
