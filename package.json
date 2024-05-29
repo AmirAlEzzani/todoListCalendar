@@ -2,10 +2,10 @@
   "name": "todocalendar2",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "server/server.js",
   "scripts": {
-    "dev": "npx nodemon ./server/app.js",
-    "start": "node ./server/app.js"
+    "dev": "npx nodemon server/app.js",
+    "start": "node server/app.js"
   },
   "keywords": [],
   "author": "",
