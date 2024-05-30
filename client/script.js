@@ -1,6 +1,6 @@
 
 const uid = localStorage.getItem('uidKey')
-console.log(uid)
+console.log(uid);
 
 const prev = document.getElementById('prev');
 const next = document.getElementById('next');
