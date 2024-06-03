@@ -1,15 +1,24 @@
-import mysql from 'mysql2'
+import mysql from 'mysql'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
 dotenv.config()
 
-const pool = mysql.createPool({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-}).promise()
+const pool = mysql.createConnection({
+    host: "database-1.cly62ag6u648.us-west-1.rds.amazonaws.com",
+    port: "3306",
+    user: "sqladmin",
+    password: "sqladmin!",
+    database: "mysqldb"
+})
+
+pool.connect((err) => {
+    if (err) {
+        console.log(err.message)
+        return
+    }
+    console.log("db connected")
+})
 
 
 export async function createTasks(userid, date, tasklist, checklist) {
