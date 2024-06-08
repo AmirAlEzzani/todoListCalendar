@@ -65,5 +65,5 @@ submit.addEventListener('click', async function () {
   
 const signUp = document.getElementById('signUp');
 signUp.addEventListener('click', function() {
-    window.location.href = 'signUp.html';
+    window.location.href = 'index.html';
 })
