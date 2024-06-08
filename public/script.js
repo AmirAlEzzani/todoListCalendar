@@ -76,7 +76,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     let tasklist = tasklistInput
     let checklist = checklistInput
 
-    fetch('ls-8bb26fbffda467183e8fbaecaf7706e4363e9ffe.chc2awksss74.us-west-2.rds.amazonaws.com:3306', {
+    fetch('http://localhost:3000', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',              
@@ -106,7 +106,7 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
     let date = dateInput;
     let tasklist = tasklistInput;
     let checklist = checklistInput;
-    fetch('mysql://urimitbswz6fapaw:xCe4wNQXOxrAqnzAwfks@bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com:3306/bvostjmvsfawpztfr2mk', {
+    fetch('http://localhost:3000', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',                    
@@ -834,7 +834,7 @@ next.addEventListener('click', function () {
 
 async function dbImport() {
     try {
-        const response = await fetch('mysql://urimitbswz6fapaw:xCe4wNQXOxrAqnzAwfks@bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com:3306/bvostjmvsfawpztfr2mk', {
+        const response = await fetch('http://localhost:3000', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',                    
