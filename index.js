@@ -1,63 +1,75 @@
-import express from 'express'
-import { createTasks, deleteTasks, importTasks } from './server.js'
-import cors from 'cors'
+// Import necessary modules
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { createTasks, deleteTasks, importTasks } from './server.js';
+import { fileURLToPath } from 'url';
 
+// Set up __dirname for ES6 modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const app = express()
-app.use(express.json())
-app.use(cors())
-console.log('test')
-let taskStore = [];
+const app = express();
+const port = 3000;
 
-const port = 3080
+app.use(express.json());
+app.use(cors());
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-  });
-  
+// Serve the index.html file
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
-})
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
+// Handle POST request for tasks
 app.post('/tasks', async (req, res) => {
-    console.log('test1')
     const { userid, date, tasklist, checklist } = req.body;
-    if (req.body.tasklist != null) {
-        const task = await createTasks(userid, date, tasklist, checklist);
-        res.status(201).send(task);
+    
+    if (tasklist != null) {
+        try {
+            const task = await createTasks(userid, date, tasklist, checklist);
+            res.status(201).send(task);
+        } catch (error) {
+            res.status(500).send('Failed to create tasks');
+        }
+    } else {
+        try {
+            let currentMonth = req.body.date;
+            let userid = req.body.userid;
+            let currentMonthSplit = currentMonth.split('-');
+            let currMonth = currentMonthSplit[0] + '-' + currentMonthSplit[1] + '-' + currentMonthSplit[2];
+            let tasks = await importTasks(userid, currMonth);
+            taskStore.splice(0, 1, tasks);
+            res.status(200).json(taskStore);
+        } catch (error) {
+            res.status(500).send('Failed to import tasks');
+        }
     }
-    if (req.body.tasklist == null) {
-        console.log('test2')
-        let currentMonth = req.body.date;
-        let userid = req.body.userid;
-        let currentMonthSplit = currentMonth.split('-');
-        let currMonth = currentMonthSplit[0]+'-'+currentMonthSplit[1]+'-'+currentMonthSplit[2];
-        console.log(req.body.userid);
-        console.log(currMonth);
-        let tasks = await importTasks(userid, currMonth);
-        taskStore.splice(0, 1, tasks);
-        console.log(taskStore)
-    }  
 });
 
+// Handle GET request for tasks
 app.get('/tasks', async (req, res) => {
-    console.log('test3')
-    console.log('this is id');
-    await new Promise(resolve => setTimeout(resolve, 100));
-    res.status(201).send(taskStore);
+    res.status(200).send(taskStore);
 });
 
-
+// Handle DELETE request for tasks
 app.delete('/tasks', async (req, res) => {
-    const { userid, date, tasklist, checklist } = req.body
-    const task = await deleteTasks(userid, date, tasklist, checklist)
-    res.status(201).send(task)
-})
+    const { userid, date, tasklist, checklist } = req.body;
+    
+    try {
+        const task = await deleteTasks(userid, date, tasklist, checklist);
+        res.status(201).send(task);
+    } catch (error) {
+        res.status(500).send('Failed to delete tasks');
+    }
+});
 
+// Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send('Something broke!')
-})
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
-
-
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+});
