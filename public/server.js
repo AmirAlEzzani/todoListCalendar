@@ -66,13 +66,26 @@ export async function deleteTasks(userid, date, tasklist, checklist) {
 
 // Example usage
 export async function importTasks(userid, yearAndMonth) {
-    const [result] = await pool.query(`
-    SELECT *
-    FROM tasks
-    WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth])
-    console.log('imported tasks:')
-    return result;
+    try {
+        const result = await pool.query(`
+            SELECT *
+            FROM tasks
+            WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth]);
+
+        if (!result) {
+            console.log('No tasks found for the given user and month');
+            return []; // Return an empty array if no tasks are found
+        }
+
+        console.log('Retrieved tasks from the database:', result);
+
+        return result;
+    } catch (error) {
+        console.error('Error retrieving tasks from the database:', error);
+        throw error;
+    }
 }
+
 
 // Call the function with sample arguments
 //import on load, prev, and next
