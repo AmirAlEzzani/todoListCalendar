@@ -2,10 +2,7 @@ import express from 'express';
 import { createTasks, deleteTasks, importTasks } from './public/server.js';
 import cors from 'cors';
 import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import CircularJSON from 'circular-json';
 
 const app = express();
 const port = 3000;
@@ -18,8 +15,6 @@ app.use(cors());
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/tasks', async (req, res) => {
     const { userid, date, tasklist, checklist } = req.body;
@@ -39,7 +34,7 @@ app.post('/tasks', async (req, res) => {
             let currMonth = `${currentMonthSplit[0]}-${currentMonthSplit[1]}-${currentMonthSplit[2]}`;
             let tasks = await importTasks(userid, currMonth);
             taskStore.splice(0, 1, tasks);
-            res.status(200).json(taskStore);
+            res.status(200).send(CircularJSON.stringify(taskStore));
         } catch (error) {
             console.error('Error importing tasks:', error);
             res.status(500).send('Failed to import tasks');
@@ -49,7 +44,7 @@ app.post('/tasks', async (req, res) => {
 
 app.get('/tasks', async (req, res) => {
     await new Promise(resolve => setTimeout(resolve, 100));
-    res.status(200).send(taskStore);
+    res.status(200).send(CircularJSON.stringify(taskStore));
 });
 
 app.delete('/tasks', async (req, res) => {
