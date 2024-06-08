@@ -2,6 +2,10 @@ import express from 'express';
 import { createTasks, deleteTasks, importTasks } from './public/server.js';
 import cors from 'cors';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import CircularJSON from 'circular-json';
 
 const app = express();
