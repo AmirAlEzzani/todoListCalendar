@@ -76,7 +76,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     let tasklist = tasklistInput
     let checklist = checklistInput
 
-    fetch('https://z8g3cqljlb.execute-api.us-west-1.amazonaws.com/test/tasks', {
+    fetch('mysql://urimitbswz6fapaw:xCe4wNQXOxrAqnzAwfks@bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com:3306/bvostjmvsfawpztfr2mk', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',              
@@ -106,7 +106,7 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
     let date = dateInput;
     let tasklist = tasklistInput;
     let checklist = checklistInput;
-    fetch('https://z8g3cqljlb.execute-api.us-west-1.amazonaws.com/test/tasks', {
+    fetch('mysql://urimitbswz6fapaw:xCe4wNQXOxrAqnzAwfks@bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com:3306/bvostjmvsfawpztfr2mk', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',                    
@@ -834,7 +834,7 @@ next.addEventListener('click', function () {
 
 async function dbImport() {
     try {
-        const response = await fetch('https://z8g3cqljlb.execute-api.us-west-1.amazonaws.com/tasknew', {
+        const response = await fetch('mysql://urimitbswz6fapaw:xCe4wNQXOxrAqnzAwfks@bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com:3306/bvostjmvsfawpztfr2mk', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',                    
