@@ -66,7 +66,7 @@ export async function deleteTasks(userid, date, tasklist, checklist) {
 
 // Example usage
 export async function importTasks(userid, yearAndMonth) {
-    const result = await pool.query(`
+    const [result] = await pool.query(`
     SELECT *
     FROM tasks
     WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth])
