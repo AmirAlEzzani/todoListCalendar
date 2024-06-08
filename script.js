@@ -76,7 +76,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     let tasklist = tasklistInput
     let checklist = checklistInput
 
-    fetch('mysql://urimitbswz6fapaw:xCe4wNQXOxrAqnzAwfks@bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com:3306/bvostjmvsfawpztfr2mk', {
+    fetch('http://localhost:8000', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',              

@@ -9,6 +9,15 @@ app.use(cors())
 console.log('test')
 let taskStore = [];
 
+const port = 3080
+
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+  });
+  
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'));
+})
 
 app.post('/tasks', async (req, res) => {
     console.log('test1')
@@ -50,8 +59,5 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!')
 })
 
-const PORT = 8080
 
-app.listen(8080, () => {
-    console.log("Server is running....")
-})
+
