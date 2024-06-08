@@ -76,7 +76,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     let tasklist = tasklistInput
     let checklist = checklistInput
 
-    fetch('http://localhost:8000', {
+    fetch('ls-8bb26fbffda467183e8fbaecaf7706e4363e9ffe.chc2awksss74.us-west-2.rds.amazonaws.com:3306', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',              
