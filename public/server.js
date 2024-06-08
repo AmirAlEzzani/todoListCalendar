@@ -62,16 +62,26 @@ export async function deleteTasks(userid, date, tasklist, checklist) {
     }
 }
 /////////////////////
+// Mocking pool.query() function
 
+// Example usage
 export async function importTasks(userid, yearAndMonth) {
-    const [result] = await pool.query(`
-    SELECT *
-    FROM tasks
-    WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth])
-    console.log('imported tasks:')
-    return result;
+    try {
+        const result = await mockQuery(`
+        SELECT *
+        FROM tasks
+        WHERE userid=? AND date LIKE CONCAT(?, '%')`, [userid, yearAndMonth]);
+
+        console.log('imported tasks:');
+        console.log(result);
+        return result;
+    } catch (error) {
+        console.error('Error executing SQL queries:', error);
+        throw error;
+    }
 }
 
+// Call the function with sample arguments
 //import on load, prev, and next
 //use split at '-' to make array and get index 0 and 1 to get year and month
 

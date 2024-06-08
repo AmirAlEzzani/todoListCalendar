@@ -76,7 +76,7 @@ function dbQuery(dateInput, tasklistInput, checklistInput) {
     let tasklist = tasklistInput
     let checklist = checklistInput
 
-    fetch('http://localhost:3000', {
+    fetch('http://localhost:3000/tasks', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',              
@@ -106,7 +106,7 @@ function dbDelete(dateInput, tasklistInput, checklistInput) {
     let date = dateInput;
     let tasklist = tasklistInput;
     let checklist = checklistInput;
-    fetch('http://localhost:3000', {
+    fetch('http://localhost:3000/tasks', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',                    
@@ -834,7 +834,7 @@ next.addEventListener('click', function () {
 
 async function dbImport() {
     try {
-        const response = await fetch('http://localhost:3000', {
+        const response = await fetch('http://localhost:3000/tasks', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',                    
