@@ -9,7 +9,7 @@ const pool = mysql.createConnection({
     port: "3306",
     user: "dbmasteruser",
     password: "3&*t=p#93kJDJXSw1G)zbc,J66Dr-[tV",
-    database: "Database-1"
+    database: "todocalendar"
 })
 
 pool.connect((err) => {
