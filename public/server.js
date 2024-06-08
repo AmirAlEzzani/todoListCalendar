@@ -5,11 +5,11 @@ import cors from 'cors'
 dotenv.config()
 
 const pool = mysql.createConnection({
-    host: "bvostjmvsfawpztfr2mk-mysql.services.clever-cloud.com",
+    host: "ls-8bb26fbffda467183e8fbaecaf7706e4363e9ffe.chc2awksss74.us-west-2.rds.amazonaws.com",
     port: "3306",
-    user: "urimitbswz6fapaw",
-    password: "xCe4wNQXOxrAqnzAwfks",
-    database: "bvostjmvsfawpztfr2mk"
+    user: "dbmasteruser",
+    password: "3&*t=p#93kJDJXSw1G)zbc,J66Dr-[tV",
+    database: "Database-1"
 })
 
 pool.connect((err) => {
