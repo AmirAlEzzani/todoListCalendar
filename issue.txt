@@ -1,0 +1,2 @@
+If you receive a "Access to fetch at from origin has been blocked by CORS policy" error, disable the following chrome flag:
+chrome://flags/#block-insecure-private-network-requests
